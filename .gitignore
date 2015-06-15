@@ -25,3 +25,8 @@ proguard/
 
 # Log Files
 *.log
+proguard-project.txt
+project.properties
+libs/
+.classpath
+.project
