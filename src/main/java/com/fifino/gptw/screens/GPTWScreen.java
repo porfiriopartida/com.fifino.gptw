@@ -43,6 +43,8 @@ public abstract class GPTWScreen extends Screen{
         paintW = getPaint();
         paintW.setColor(Color.WHITE);
         input = (AndroidInput) game.getInput();
+        initializeAssets();
+        setupEntities();
     }
     @Override
     public void update(float deltaTime) {

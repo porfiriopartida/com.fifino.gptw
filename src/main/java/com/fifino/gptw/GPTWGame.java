@@ -25,8 +25,8 @@ public class GPTWGame extends AndroidGame {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        onCreateAndroidGame();
-        // AndroidEntity.MODE = AndroidEntity.Mode.PROD;
-        AndroidEntity.MODE = AndroidEntity.Mode.DEBUG;
+         AndroidEntity.MODE = AndroidEntity.Mode.PROD;
+        //AndroidEntity.MODE = AndroidEntity.Mode.DEBUG;
     }
     
     @Override

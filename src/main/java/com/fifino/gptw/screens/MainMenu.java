@@ -17,8 +17,6 @@ import com.kilobolt.framework.Image;
 import com.kilobolt.framework.Input.TouchEvent;
 
 public class MainMenu extends GPTWScreen {
-	HashMap<String, String> assets = new HashMap<String, String>();
-	String imagesPath = Assets.IMAGES_PATH + "screens/main/";
 
 	public MainMenu(Game game) {
 		super(game);
@@ -26,6 +24,8 @@ public class MainMenu extends GPTWScreen {
 
 	@Override
 	protected void initializeAssets() {
+		HashMap<String, String> assets = new HashMap<String, String>();
+		String imagesPath = Assets.IMAGES_PATH + "/screens/main/";
 		Graphics g = game.getGraphics();
 		assets.put("mainBg", imagesPath + "bg.png");
 		assets.put("mainStart", imagesPath + "start.png");
@@ -33,6 +33,7 @@ public class MainMenu extends GPTWScreen {
 		Set<String> keys = assets.keySet();
 		for(String key:keys){
 			if(Assets.getImage(key) == null){
+				System.out.println("Loading: " + assets.get(key));
 				Image bgImage =  g.newImage(assets.get(key), Graphics.ImageFormat.RGB565);
 				Assets.addImage(key, bgImage);
 			}
@@ -64,11 +65,12 @@ public class MainMenu extends GPTWScreen {
 		});
 		exitButton.setX(g.getWidth() / 2 - startButton.getWidth() / 2);
 		MenuItem bg = new MenuItem(bgImage, 0, 0);
+		bg.setCollidable(false);
 		this.menuItems.add(bg);
 		this.menuItems.add(startButton);
 		this.menuItems.add(exitButton);
 
-		this.state = GameState.Ready;
+		this.state = GameState.Running;
 	}
 
 
@@ -91,10 +93,11 @@ public class MainMenu extends GPTWScreen {
 	@Override
 	protected void drawRunningUI(List<TouchEvent> touchEvents, float deltaTime) {
         Graphics g = game.getGraphics();
+          g.fillRect(0, 0, g.getWidth(), g.getHeight(), Color.WHITE);
+//        g.fillRect(0, 0, g.getWidth(), 120, Color.WHITE);
+//        g.drawString("Running boys =D: " + this.input.getOrientation(), g.getWidth() / 2 - 25, 40,
+//				paintB);
 		this.menuItems.draw(g);
-        g.fillRect(0, 0, g.getWidth(), 120, Color.WHITE);
-        g.drawString("Running boys =D: " + this.input.getOrientation(), g.getWidth() / 2 - 25, 40,
-				paintB);
 	}
 	@Override
 	protected void updateRunning(List<TouchEvent> touchEvents, float deltaTime) {
@@ -113,6 +116,7 @@ public class MainMenu extends GPTWScreen {
 				point = new Point(event.x, event.y);
 				if(menuItems.collides(point)){
 					System.out.println(menuItems.getLastCollision().getName());
+					menuItems.getLastCollision().triggerTouchEvent();
 				}
 //                if (event.type == TouchEvent.TOUCH_DOWN) {
 //                    state = GameState.GameOver;
