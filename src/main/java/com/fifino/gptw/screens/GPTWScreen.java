@@ -1,12 +1,13 @@
 package com.fifino.gptw.screens;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
 import android.graphics.Color;
 import android.graphics.Paint;
 
-import com.fifino.framework.assets.Assets;
 import com.fifino.framework.entities.MenuItemComposite;
+import com.fifino.gptw.GPTWGame;
 import com.kilobolt.framework.Game;
 import com.kilobolt.framework.Graphics;
 import com.kilobolt.framework.Input.TouchEvent;
@@ -15,17 +16,18 @@ import com.kilobolt.framework.implementation.AndroidImage;
 import com.kilobolt.framework.implementation.AndroidInput;
 
 public abstract class GPTWScreen extends Screen{
-	protected GameState state = GameState.Ready;
-	protected Random rnd = new Random();
+	protected GameState state = GameState.Running;
+
     AndroidInput input;
-    public enum GameState {
-        Ready, Running, Paused, GameOver
-    }
+    protected int maxSeconds = 0, currentSeconds = 0;
     protected MenuItemComposite menuItems;
     protected AndroidImage bgImage;
     protected String name = "noname"; 
     protected boolean isPortrait = true;
-    protected Paint paintB, paintW;
+    protected Paint paintB, paintW, paintBT;
+    public enum GameState {
+        Ready, Running, Paused, GameOver
+    }
     public boolean isPortrait() {
         return isPortrait;
     }
@@ -35,12 +37,18 @@ public abstract class GPTWScreen extends Screen{
     public void setPortrait(boolean portrait) {
         this.isPortrait = portrait;
     }
+
+
+
     public GPTWScreen(Game game) {
         super(game);
         menuItems = new MenuItemComposite(0, 0); 
         //bgImage =  (AndroidImage)Assets.getImage(Assets.IMAGES_PATH + "/main/gray-bg.png");
         paintB = getPaint();
         paintW = getPaint();
+        paintBT = getPaint();
+        paintBT.setColor(Color.RED);
+        paintBT.setAlpha(255);
         paintW.setColor(Color.WHITE);
         input = (AndroidInput) game.getInput();
         initializeAssets();
@@ -57,6 +65,17 @@ public abstract class GPTWScreen extends Screen{
             updatePaused(touchEvents, deltaTime);
         } else if (state == GameState.GameOver) {
             updateGameOver(touchEvents);
+        }
+    }
+    protected void checkScreenState(){
+        if(this.currentSeconds <= 0){
+            this.drawBar(game.getGraphics());
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            this.game.setScreen(getNextScreen());
         }
     }
     protected abstract void updateRunning(List<TouchEvent> touchEvents, float deltaTime);
@@ -122,15 +141,7 @@ public abstract class GPTWScreen extends Screen{
     public void setName(String name){
         this.name = name;
     }
-    
-    public void start(){ }
 
-//    @Override
-//    public void paint(float deltaTime) {
-//        Graphics g = game.getGraphics();
-//        g.fillRect(0, 0, g.getWidth(), g.getHeight(), Color.WHITE);
-//        menuItems.draw(g);
-//    }
     public void paint(float deltaTime) {
         List<TouchEvent> touchEvents = game.getInput().getTouchEvents();
         if (state == GameState.Ready) {
@@ -151,10 +162,17 @@ public abstract class GPTWScreen extends Screen{
 	}
     protected void drawRunningUI(List<TouchEvent> touchEvents, float deltaTime) {
         Graphics g = game.getGraphics();
+        g.fillRect(0, 0, g.getWidth(), 120, Color.WHITE);
         g.drawString("Nothing implemented yet.", g.getWidth() / 2 - 25, 40,
                 paintB);
-		
-	}
+    }
+    protected void drawBar(Graphics g){
+        if(this.currentSeconds >= 0) {
+            int rate = 100 * this.currentSeconds / this.maxSeconds;
+//            System.out.println("Rate: " + rate);
+            g.drawRect(0, 0, g.getWidth() * rate / 100, 60, paintBT);
+        }
+    }
     protected void drawPausedUI(List<TouchEvent> touchEvents) {
         Graphics g = game.getGraphics();
         g.fillRect(0, 0, g.getWidth(), 120, Color.WHITE);
@@ -167,20 +185,37 @@ public abstract class GPTWScreen extends Screen{
         g.drawString("Nothing implemented yet.", g.getWidth() / 2 - 25, 40,
                 paintB);		
 	}
+    public int getMaxSeconds() {
+        return maxSeconds;
+    }
+    public int getSeconds() {
+        return currentSeconds;
+    }
+
+    public void setMaxSeconds(int maxSeconds) {
+        maxSeconds *= 10;
+        this.maxSeconds = maxSeconds;
+        this.currentSeconds = maxSeconds;
+        lastTime = getTimestamp();
+    }
+    protected long getTimestamp(){
+        return Calendar.getInstance().getTimeInMillis();
+    }
+    long lastTime;
+    protected void updateTime(){
+        long diff = getTimestamp() - lastTime;
+        if(diff > 100) {
+            //Update every second.
+            this.currentSeconds -= (diff/100);
+            lastTime = getTimestamp();
+        }
+        checkScreenState();
+    }
+    protected Screen getNextScreen(){
+        return ((GPTWGame)game).getNextScreen();
+    }
 //	@Override
 //	public void backButton() {
 //		System.exit(0);
 //	}
-
-    
-//    public void setOrientation(){
-//        EpuEpoGame act = EpuEpoGame.get();
-//        boolean isPortrait =  act.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
-//        EpuEpoGame.LAST_SCREEN = this;
-//        if(!isPortrait && this.isPortrait){
-//            act.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-//        } else if(isPortrait && !this.isPortrait){
-//            act.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-//        }
-//    }
 }

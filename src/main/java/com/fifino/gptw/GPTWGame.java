@@ -11,7 +11,10 @@ import android.view.WindowManager;
 
 import com.fifino.framework.implementation.AndroidEntity;
 import com.fifino.framework.simple.SimpleScreen;
+import com.fifino.gptw.screens.GPTWScreen;
+import com.fifino.gptw.screens.LoadingScreen;
 import com.fifino.gptw.screens.MainMenu;
+import com.kilobolt.framework.Game;
 import com.kilobolt.framework.Screen;
 import com.kilobolt.framework.implementation.AndroidAudio;
 import com.kilobolt.framework.implementation.AndroidFastRenderView;
@@ -20,6 +23,10 @@ import com.kilobolt.framework.implementation.AndroidGame;
 import com.kilobolt.framework.implementation.AndroidGraphics;
 import com.kilobolt.framework.implementation.AndroidInput;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Random;
+
 public class GPTWGame extends AndroidGame {
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -27,6 +34,7 @@ public class GPTWGame extends AndroidGame {
 //        onCreateAndroidGame();
          AndroidEntity.MODE = AndroidEntity.Mode.PROD;
         //AndroidEntity.MODE = AndroidEntity.Mode.DEBUG;
+        rnd = new Random();
     }
     
     @Override
@@ -41,7 +49,7 @@ public class GPTWGame extends AndroidGame {
 
     @Override
     public Screen getInitScreen() {
-    	return new MainMenu(this);
+    	return new LoadingScreen(this);
     }
     public boolean getIsPortrait(){
         return this.isPortrait;
@@ -58,5 +66,35 @@ public class GPTWGame extends AndroidGame {
         }
         resetFrameBuffer(isPortrait);
         System.out.println(isPortrait ? "PORTRAIT":"LANDSCAPE");
+    }
+    private Class[] gamesPool = new Class[]{
+            com.fifino.gptw.screens.games.TurnOffAirs.class,
+            com.fifino.gptw.screens.games.TurnOffAlarms.class
+    };
+    Random rnd;
+    int lastGame = -1;
+    int level = 1;
+    public Screen getNextScreen(){
+        try {
+            //Ensures not to get the same game again.
+            int nextGame = -1;
+            do{
+                nextGame = rnd.nextInt(gamesPool.length);
+            }while(lastGame == nextGame);
+            lastGame = nextGame;
+
+            //Creates a new instance of the game
+//            String className = gamesPool[nextGame];
+//            Class cl = null;
+//                cl = Class.forName(className);
+            Class cl = gamesPool[nextGame];
+            Constructor con = cl.getConstructor(Game.class, Integer.class);
+            Object xyz = con.newInstance(this, level);
+            return (GPTWScreen) xyz;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(0);
+        }
+        return null;
     }
 }

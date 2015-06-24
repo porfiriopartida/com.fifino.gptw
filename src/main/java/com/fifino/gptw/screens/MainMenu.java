@@ -11,6 +11,7 @@ import com.fifino.framework.assets.Assets;
 import com.fifino.framework.entities.MenuItem;
 import com.fifino.framework.entities.TouchAction;
 import com.fifino.framework.simple.SimpleScreen;
+import com.fifino.gptw.GPTWGame;
 import com.kilobolt.framework.Game;
 import com.kilobolt.framework.Graphics;
 import com.kilobolt.framework.Image;
@@ -24,20 +25,6 @@ public class MainMenu extends GPTWScreen {
 
 	@Override
 	protected void initializeAssets() {
-		HashMap<String, String> assets = new HashMap<String, String>();
-		String imagesPath = Assets.IMAGES_PATH + "/screens/main/";
-		Graphics g = game.getGraphics();
-		assets.put("mainBg", imagesPath + "bg.png");
-		assets.put("mainStart", imagesPath + "start.png");
-		assets.put("mainExit", imagesPath + "exit.png");
-		Set<String> keys = assets.keySet();
-		for(String key:keys){
-			if(Assets.getImage(key) == null){
-				System.out.println("Loading: " + assets.get(key));
-				Image bgImage =  g.newImage(assets.get(key), Graphics.ImageFormat.RGB565);
-				Assets.addImage(key, bgImage);
-			}
-		}
 	}
 	MenuItem startButton, exitButton;
 	@Override
@@ -54,7 +41,7 @@ public class MainMenu extends GPTWScreen {
 		startButton.addTouchListener(new TouchAction() {
 			@Override
 			public void triggerTouch() {
-				game.setScreen(new SimpleScreen(game));
+				game.setScreen(getNextScreen());
 			}
 		});
 		exitButton.addTouchListener(new TouchAction() {
@@ -69,10 +56,8 @@ public class MainMenu extends GPTWScreen {
 		this.menuItems.add(bg);
 		this.menuItems.add(startButton);
 		this.menuItems.add(exitButton);
-
 		this.state = GameState.Running;
 	}
-
 
 	@Override
 	public void pause() {

@@ -34,3 +34,4 @@ project.properties
 libs/
 .classpath
 .project
+.DS_Store
