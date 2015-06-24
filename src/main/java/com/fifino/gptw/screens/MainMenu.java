@@ -1,23 +1,18 @@
 package com.fifino.gptw.screens;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 import android.graphics.Color;
 import android.graphics.Point;
 
 import com.fifino.framework.assets.Assets;
 import com.fifino.framework.entities.MenuItem;
-import com.fifino.framework.entities.TouchAction;
-import com.fifino.framework.simple.SimpleScreen;
-import com.fifino.gptw.GPTWGame;
+import com.fifino.framework.events.TouchAction;
 import com.kilobolt.framework.Game;
 import com.kilobolt.framework.Graphics;
-import com.kilobolt.framework.Image;
 import com.kilobolt.framework.Input.TouchEvent;
 
-public class MainMenu extends GPTWScreen {
+public class MainMenu extends GPTWScreen implements TouchAction {
 
 	public MainMenu(Game game) {
 		super(game);
@@ -36,20 +31,10 @@ public class MainMenu extends GPTWScreen {
 		exitButton.setY(g.getHeight() - exitButton.getHeight() - 15);
 		startButton.setY(exitButton.getY() - exitButton.getHeight() - 15);
 		startButton.setX(g.getWidth() / 2 - startButton.getWidth() / 2);
-		startButton.setName("Start Button");
-		exitButton.setName("Exit Button");
-		startButton.addTouchListener(new TouchAction() {
-			@Override
-			public void triggerTouch() {
-				game.setScreen(getNextScreen());
-			}
-		});
-		exitButton.addTouchListener(new TouchAction() {
-			@Override
-			public void triggerTouch() {
-				System.exit(0);
-			}
-		});
+		startButton.setName("start");
+		exitButton.setName("exit");
+		startButton.addTouchListener(this);
+		exitButton.addTouchListener(this);
 		exitButton.setX(g.getWidth() / 2 - startButton.getWidth() / 2);
 		MenuItem bg = new MenuItem(bgImage, 0, 0);
 		bg.setCollidable(false);
@@ -127,4 +112,18 @@ public class MainMenu extends GPTWScreen {
         }
     }
 
+	@Override
+	public void triggerTouch(String eventName, Object context) {
+		this.triggerTouch(context);
+	}
+
+	@Override
+	public void triggerTouch(Object context) {
+		MenuItem item = (MenuItem)context;
+		if("exit".equals(item.getName())){
+			System.exit(0);
+		}else{
+			game.setScreen(getNextScreen());
+		}
+	}
 }

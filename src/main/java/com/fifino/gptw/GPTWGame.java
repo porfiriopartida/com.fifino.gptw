@@ -32,8 +32,8 @@ public class GPTWGame extends AndroidGame {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        onCreateAndroidGame();
-         AndroidEntity.MODE = AndroidEntity.Mode.PROD;
-        //AndroidEntity.MODE = AndroidEntity.Mode.DEBUG;
+        // AndroidEntity.MODE = AndroidEntity.Mode.PROD;
+        AndroidEntity.MODE = AndroidEntity.Mode.DEBUG;
         rnd = new Random();
     }
     
@@ -89,7 +89,7 @@ public class GPTWGame extends AndroidGame {
 //                cl = Class.forName(className);
             Class cl = gamesPool[nextGame];
             Constructor con = cl.getConstructor(Game.class, Integer.class);
-            Object xyz = con.newInstance(this, level);
+            Object xyz = con.newInstance(this, ++level);
             return (GPTWScreen) xyz;
         } catch (Exception e) {
             e.printStackTrace();

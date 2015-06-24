@@ -1,16 +1,12 @@
 package com.fifino.gptw.screens;
 
-import android.graphics.Color;
 import android.graphics.Point;
 
 import com.fifino.framework.assets.Assets;
 import com.fifino.framework.entities.MenuItem;
-import com.fifino.framework.entities.TouchAction;
-import com.fifino.framework.simple.SimpleScreen;
 import com.kilobolt.framework.Game;
 import com.kilobolt.framework.Graphics;
 import com.kilobolt.framework.Image;
-import com.kilobolt.framework.Input;
 import com.kilobolt.framework.Input.TouchEvent;
 import com.kilobolt.framework.implementation.AndroidImage;
 
@@ -47,11 +43,6 @@ public class LoadingScreen extends GPTWScreen {
                 Assets.addImage(key, bgImage);
             }
             System.out.println(c/keys.size() + "%");
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         }
         doneLoading = true;
         this.game.setScreen(new MainMenu(game));

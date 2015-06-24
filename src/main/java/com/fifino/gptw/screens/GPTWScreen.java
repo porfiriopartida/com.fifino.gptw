@@ -25,6 +25,7 @@ public abstract class GPTWScreen extends Screen{
     protected String name = "noname"; 
     protected boolean isPortrait = true;
     protected Paint paintB, paintW, paintBT;
+    int level;
     public enum GameState {
         Ready, Running, Paused, GameOver
     }
@@ -47,8 +48,8 @@ public abstract class GPTWScreen extends Screen{
         paintB = getPaint();
         paintW = getPaint();
         paintBT = getPaint();
-        paintBT.setColor(Color.RED);
-        paintBT.setAlpha(255);
+        paintBT.setColor(Color.BLACK);
+        paintBT.setAlpha(200);
         paintW.setColor(Color.WHITE);
         input = (AndroidInput) game.getInput();
         initializeAssets();
@@ -170,7 +171,7 @@ public abstract class GPTWScreen extends Screen{
         if(this.currentSeconds >= 0) {
             int rate = 100 * this.currentSeconds / this.maxSeconds;
 //            System.out.println("Rate: " + rate);
-            g.drawRect(0, 0, g.getWidth() * rate / 100, 60, paintBT);
+            g.drawRect(0, 0, g.getWidth() * rate / 100, 50, paintBT);
         }
     }
     protected void drawPausedUI(List<TouchEvent> touchEvents) {
