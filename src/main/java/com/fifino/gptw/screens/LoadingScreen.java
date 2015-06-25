@@ -34,6 +34,12 @@ public class LoadingScreen extends GPTWScreen {
         assets.put("game_2_bg", imagesPath + "/screens/games/alarms.png");
         assets.put("sprite_1_1", imagesPath + "/sprites/air.png");
         assets.put("sprite_1_2", imagesPath + "/sprites/alarm.png");
+        //assets.put("airs-1", imagesPath + "/screens/games/airs-1.png");
+        //assets.put("airs-2", imagesPath + "/screens/games/airs-2.png");
+        //assets.put("alarms-1", imagesPath + "/screens/games/alarms-1.png");
+//        assets.put("alarms-2", imagesPath + "/screens/games/alarms-2.png");
+//        assets.put("airs-0", imagesPath + "/screens/games/airs-0.png");
+//        assets.put("alarms-0", imagesPath + "/screens/games/alarms-0.png");
         Set<String> keys = assets.keySet();
         int c = 0;
         for(String key:keys){

@@ -7,11 +7,13 @@ import com.fifino.framework.entities.MenuItem;
 import com.fifino.framework.entities.Sprite;
 import com.fifino.framework.events.TouchAction;
 import com.fifino.gptw.screens.GPTWScreen;
+import com.fifino.gptw.screens.MiddleScreen;
 import com.kilobolt.framework.Game;
 import com.kilobolt.framework.Graphics;
 import com.kilobolt.framework.Input;
 import com.kilobolt.framework.implementation.AndroidImage;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -20,10 +22,11 @@ import java.util.Random;
  */
 public class TurnOffAirs extends GPTWScreen implements TouchAction {
     private AndroidImage bgImage;
-    Random rnd;
+    private Random rnd;
+    protected ArrayList<Sprite> activeElements;
     public TurnOffAirs(Game game, Integer level) {
         super(game);
-        int timer = 7 - getDifficulty(level);
+        int timer = 6 - getDifficulty(level);
         if(timer < 3){
             timer = 3;
         }
@@ -88,6 +91,7 @@ public class TurnOffAirs extends GPTWScreen implements TouchAction {
             int x, y = 60, midX, thirdY;
             midX = g.getWidth()/2;
             thirdY = (g.getHeight() - 65 - 5 - 40)/3;
+            this.activeElements = new ArrayList<Sprite>();
             for(int i=0; i<3;i++){
                 y = 65+(thirdY+5)*i;
                 for(int j=0; j<2;j++){
@@ -95,6 +99,7 @@ public class TurnOffAirs extends GPTWScreen implements TouchAction {
                     x = midX*j + midX/2 - sprite.getWidth()/2;
                     sprite.setX(x);
                     sprite.setY(y);
+                    activeElements.add(sprite);
                     this.menuItems.add(sprite);
                 }
             }
@@ -111,6 +116,7 @@ public class TurnOffAirs extends GPTWScreen implements TouchAction {
             if(isAir){
                 //public Sprite(String assetName, int x, int y, int width, int height) {
                 sprite =  new Sprite("sprite_1_1", 0, 0, 230, 180);
+                sprite.setName("air");
                 sprite.registerAnimation("idle", 0, 2);
                 sprite.registerAnimation("on", 1, 2);
                 sprite.setAttribute("status", isOn);
@@ -118,6 +124,7 @@ public class TurnOffAirs extends GPTWScreen implements TouchAction {
                 sprite.addTouchListener(this);
             }else{
                 sprite =  new Sprite("sprite_1_2", 0, 0, 142, 107);
+                sprite.setName("alarm");
                 sprite.registerAnimation("idle", 0, 2);
                 sprite.registerAnimation("on", 1, 2);
                 sprite.setAttribute("status", isOn);
@@ -155,6 +162,29 @@ public class TurnOffAirs extends GPTWScreen implements TouchAction {
         triggerTouch(context);
     }
 
+    @Override
+    protected void checkTimeIsZero(){
+        int errorState = 0;
+        String stateName = "airs-";
+        for(Sprite sprite:activeElements){
+            boolean isAir = "air".equals(sprite.getName());
+            boolean isOn = (boolean) sprite.getAttribute("status");
+            if(isAir){
+                if(isOn){
+                    errorState = 1;
+                    break;
+                }
+            } else {
+                if(!isOn){
+                    stateName = "alarms-";
+                    errorState = 1;
+                    break;
+                }
+            }
+        }
+        String bgName = stateName + errorState;
+        this.game.setScreen(new MiddleScreen(this.game, bgName));
+    }
     @Override
     public void triggerTouch(Object context) {
         Sprite sprite = (Sprite)context;

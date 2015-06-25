@@ -25,7 +25,7 @@ public abstract class GPTWScreen extends Screen{
     protected String name = "noname"; 
     protected boolean isPortrait = true;
     protected Paint paintB, paintW, paintBT;
-    int level;
+    protected int level;
     public enum GameState {
         Ready, Running, Paused, GameOver
     }
@@ -39,8 +39,6 @@ public abstract class GPTWScreen extends Screen{
         this.isPortrait = portrait;
     }
 
-
-
     public GPTWScreen(Game game) {
         super(game);
         menuItems = new MenuItemComposite(0, 0); 
@@ -52,6 +50,9 @@ public abstract class GPTWScreen extends Screen{
         paintBT.setAlpha(200);
         paintW.setColor(Color.WHITE);
         input = (AndroidInput) game.getInput();
+        postConstruct();
+    }
+    protected void postConstruct(){
         initializeAssets();
         setupEntities();
     }
@@ -68,15 +69,19 @@ public abstract class GPTWScreen extends Screen{
             updateGameOver(touchEvents);
         }
     }
+
+    protected void checkTimeIsZero(){
+        try {
+            Thread.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        this.game.setScreen(getNextScreen());
+    }
     protected void checkScreenState(){
         if(this.currentSeconds <= 0){
             this.drawBar(game.getGraphics());
-            try {
-                Thread.sleep(1);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            this.game.setScreen(getNextScreen());
+            checkTimeIsZero();
         }
     }
     protected abstract void updateRunning(List<TouchEvent> touchEvents, float deltaTime);
