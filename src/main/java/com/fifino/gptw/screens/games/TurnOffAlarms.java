@@ -45,5 +45,7 @@ public class TurnOffAlarms extends TurnOffAirs {
         }
         String bgName = stateName + errorState;
         this.game.setScreen(new MiddleScreen(this.game, bgName));
+
+        this.clean();
     }
 }

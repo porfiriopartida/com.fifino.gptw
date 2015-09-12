@@ -30,21 +30,10 @@ public class LoadingScreen extends GPTWScreen {
         assets.put("mainBg", imagesPath + "/screens/main/bg.png");
         assets.put("mainStart", imagesPath + "/screens/main/start.png");
         assets.put("mainExit", imagesPath + "/screens/main/exit.png");
-        assets.put("game_1_bg", imagesPath + "/screens/games/airs.png");
-        assets.put("game_2_bg", imagesPath + "/screens/games/alarms.png");
-        assets.put("sprite_1_1", imagesPath + "/sprites/air.png");
-        assets.put("sprite_1_2", imagesPath + "/sprites/alarm.png");
-        //assets.put("airs-1", imagesPath + "/screens/games/airs-1.png");
-        //assets.put("airs-2", imagesPath + "/screens/games/airs-2.png");
-        //assets.put("alarms-1", imagesPath + "/screens/games/alarms-1.png");
-//        assets.put("alarms-2", imagesPath + "/screens/games/alarms-2.png");
-//        assets.put("airs-0", imagesPath + "/screens/games/airs-0.png");
-//        assets.put("alarms-0", imagesPath + "/screens/games/alarms-0.png");
         Set<String> keys = assets.keySet();
         int c = 0;
         for(String key:keys){
             if(Assets.getImage(key) == null){
-                System.out.println("Loading: " + assets.get(key));
                 Image bgImage =  g.newImage(assets.get(key), Graphics.ImageFormat.RGB565);
                 Assets.addImage(key, bgImage);
             }

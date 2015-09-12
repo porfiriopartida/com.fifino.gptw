@@ -10,12 +10,15 @@ import com.fifino.gptw.screens.GPTWScreen;
 import com.fifino.gptw.screens.MiddleScreen;
 import com.kilobolt.framework.Game;
 import com.kilobolt.framework.Graphics;
+import com.kilobolt.framework.Image;
 import com.kilobolt.framework.Input;
 import com.kilobolt.framework.implementation.AndroidImage;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 /**
  * Created by ppartida on 6/23/15.
@@ -72,9 +75,31 @@ public class TurnOffAirs extends GPTWScreen implements TouchAction {
     protected String getBackgroundKey(){
         return "game_1_bg";
     }
+    HashMap<String, String> assets;
     @Override
     protected void initializeAssets() {
-
+        assets = new HashMap<String, String>();
+        Graphics g = game.getGraphics();
+        String imagesPath = Assets.IMAGES_PATH;
+        assets.put("game_1_bg", imagesPath + "/screens/games/airs.png");
+        assets.put("game_2_bg", imagesPath + "/screens/games/alarms.png");
+        assets.put("sprite_1_1", imagesPath + "/sprites/air.png");
+        assets.put("sprite_1_2", imagesPath + "/sprites/alarm.png");
+        Set<String> keys = assets.keySet();
+        for(String key:keys){
+            if(Assets.getImage(key) == null){
+                Image bgImage =  g.newImage(assets.get(key), Graphics.ImageFormat.RGB565);
+                Assets.addImage(key, bgImage);
+            }
+        }
+    }
+    protected void clean(){
+        Set<String> keys = assets.keySet();
+        for(String key:keys){
+            if(Assets.getImage(key) != null){
+                Assets.remove(key);
+            }
+        }
     }
     //AndroidImage airImage, alarmImage;
     @Override
@@ -184,6 +209,7 @@ public class TurnOffAirs extends GPTWScreen implements TouchAction {
         }
         String bgName = stateName + errorState;
         this.game.setScreen(new MiddleScreen(this.game, bgName));
+        this.clean();
     }
     @Override
     public void triggerTouch(Object context) {

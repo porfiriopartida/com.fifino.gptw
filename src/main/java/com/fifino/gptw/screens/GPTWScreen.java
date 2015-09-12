@@ -1,11 +1,14 @@
 package com.fifino.gptw.screens;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import android.graphics.Color;
 import android.graphics.Paint;
 
+import com.fifino.framework.assets.Assets;
 import com.fifino.framework.entities.MenuItemComposite;
 import com.fifino.gptw.GPTWGame;
 import com.kilobolt.framework.Game;
@@ -39,8 +42,12 @@ public abstract class GPTWScreen extends Screen{
         this.isPortrait = portrait;
     }
 
-    public GPTWScreen(Game game) {
+    public GPTWScreen(Game game){
+        this(game, -1);
+    }
+    public GPTWScreen(Game game, Integer level) {
         super(game);
+        this.level = level;
         menuItems = new MenuItemComposite(0, 0); 
         //bgImage =  (AndroidImage)Assets.getImage(Assets.IMAGES_PATH + "/main/gray-bg.png");
         paintB = getPaint();
@@ -51,6 +58,9 @@ public abstract class GPTWScreen extends Screen{
         paintW.setColor(Color.WHITE);
         input = (AndroidInput) game.getInput();
         postConstruct();
+    }
+    protected Graphics getGraphics(){
+        return this.game.getGraphics();
     }
     protected void postConstruct(){
         initializeAssets();
@@ -68,6 +78,15 @@ public abstract class GPTWScreen extends Screen{
         } else if (state == GameState.GameOver) {
             updateGameOver(touchEvents);
         }
+    }
+    public void clean(HashMap<String, String> assets){
+        Set<String> keys = assets.keySet();
+        for(String key:keys){
+            if(Assets.getImage(key) != null){
+                Assets.remove(key);
+            }
+        }
+
     }
 
     protected void checkTimeIsZero(){
@@ -173,7 +192,7 @@ public abstract class GPTWScreen extends Screen{
                 paintB);
     }
     protected void drawBar(Graphics g){
-        if(this.currentSeconds >= 0) {
+        if(this.currentSeconds >= 0 && this.maxSeconds > 0) {
             int rate = 100 * this.currentSeconds / this.maxSeconds;
 //            System.out.println("Rate: " + rate);
             g.drawRect(0, 0, g.getWidth() * rate / 100, 50, paintBT);
@@ -209,6 +228,9 @@ public abstract class GPTWScreen extends Screen{
     }
     long lastTime;
     protected void updateTime(){
+        if(this.maxSeconds <= 0){
+            return;
+        }
         long diff = getTimestamp() - lastTime;
         if(diff > 100) {
             //Update every second.

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.view.Window;
@@ -67,27 +68,27 @@ public class GPTWGame extends AndroidGame {
         resetFrameBuffer(isPortrait);
         System.out.println(isPortrait ? "PORTRAIT":"LANDSCAPE");
     }
-    private Class[] gamesPool = new Class[]{
-            com.fifino.gptw.screens.games.TurnOffAirs.class,
-            com.fifino.gptw.screens.games.TurnOffAlarms.class
-    };
     Random rnd;
     int lastGame = -1;
-    int level = 1;
+    int level = 0;
     public Screen getNextScreen(){
         try {
+            Class[] gamesPool = GPTWGamesPool.LIST;
             //Ensures not to get the same game again.
             int nextGame = -1;
+            int maxTries = 100, tries = 0;
             do{
                 nextGame = rnd.nextInt(gamesPool.length);
-            }while(lastGame == nextGame);
+                tries++;
+            }while(lastGame == nextGame && tries < maxTries);
             lastGame = nextGame;
 
             //Creates a new instance of the game
 //            String className = gamesPool[nextGame];
-//            Class cl = null;
 //                cl = Class.forName(className);
             Class cl = gamesPool[nextGame];
+            System.out.println(cl.getName());
+            System.out.println("nextGame: " + nextGame);
             Constructor con = cl.getConstructor(Game.class, Integer.class);
             Object xyz = con.newInstance(this, ++level);
             return (GPTWScreen) xyz;
