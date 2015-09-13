@@ -96,7 +96,7 @@ public class FindTheCar extends GPTWScreen implements TouchAction {
         winnerIdx = getRandomSignImgIdx(this.level, winnerIdx, false);
         AndroidImage signImage = Assets.getAndroidImage(getSignImg(winnerIdx));
         //Center item and put near to the top inside white box
-        MenuItem signItem = new MenuItem(signImage, g.getWidth()/2 - signImage.getWidth()/2, 145);
+        MenuItem signItem = new MenuItem(signImage, g.getWidth()/2 - signImage.getWidth()/2, 140);
         signItem.setCollidable(false);
         this.menuItems.add(signItem); //bg should be first
     }
@@ -143,9 +143,9 @@ public class FindTheCar extends GPTWScreen implements TouchAction {
                     signImageName = getSignImg(signIdx);
                 }
                 signImage = (AndroidImage) Assets.getImage(signImageName, true);
-                signImage.scale(200, 60); //white sign placeholder
+                signImage.scale(245, 90); //white sign placeholder
                 // Adding sign to car
-                sign = new MenuItem(signImage, carSprite.getX() + carSprite.getWidth()/2 - signImage.getWidth()/2, carSprite.getY() + 240);
+                sign = new MenuItem(signImage, carSprite.getX() + carSprite.getWidth()/2 - signImage.getWidth()/2, carSprite.getY() + 205);
                 carSprite.setSign(sign);
                 // Adding all cars to pool of cars
                 carSprites.add(carSprite);
@@ -153,7 +153,7 @@ public class FindTheCar extends GPTWScreen implements TouchAction {
         }catch (Exception e){
             e.printStackTrace();
         }
-            carSprite.setGame(this);
+        carSprite.setGame(this);
         carSprite.setIsLast(true);
         
     }
@@ -164,10 +164,10 @@ public class FindTheCar extends GPTWScreen implements TouchAction {
             //Helpers
             Graphics g = this.game.getGraphics();
             this.rnd = new Random();
-            int maxCars = 6,
+            int maxCars = 5,
                 maxSpeed = 15;
-            totalCars = 3 + level;
-            speed = level * 2 + 5 ;
+            totalCars = 2 + level;
+            speed = level * 3 + 4 ;
             if(speed > maxSpeed){
                 speed = maxSpeed;
             }
@@ -256,15 +256,15 @@ public class FindTheCar extends GPTWScreen implements TouchAction {
         if("winner".equalsIgnoreCase(sprite.getName())){
             win();
         } else {
-            lose();
+            lose(false);
         }
     }
     public void win(){
         this.clean(assets);
-        this.game.setScreen(new MiddleScreen(this.game, "airs-0"));
+        this.game.setScreen(new MiddleScreen(this.game, GPTWResources.FIND_THE_CAR_WIN));
     }
-    public void lose(){
+    public void lose(boolean timeout){
         this.clean(assets);
-        this.game.setScreen(new MiddleScreen(this.game, "airs-1"));
+        this.game.setScreen(new MiddleScreen(this.game, timeout ? GPTWResources.FIND_THE_CAR_LOSE_2: GPTWResources.FIND_THE_CAR_LOSE_1));
     }
 }

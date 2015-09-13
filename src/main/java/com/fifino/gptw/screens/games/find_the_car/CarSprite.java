@@ -29,7 +29,7 @@ public class CarSprite extends Sprite {
         if(this.x < 0 - this.getWidth()){
             this.setVisible(false);
             if(isLast){
-                game.lose();
+                game.lose(true);
             }
             return;
         }

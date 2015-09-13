@@ -5,6 +5,7 @@ import android.graphics.Color;
 import com.fifino.framework.assets.Assets;
 import com.fifino.framework.entities.MenuItem;
 import com.fifino.framework.entities.MenuItemComposite;
+import com.fifino.gptw.GPTWResources;
 import com.kilobolt.framework.Game;
 import com.kilobolt.framework.Graphics;
 import com.kilobolt.framework.Image;
@@ -37,6 +38,10 @@ public class MiddleScreen extends GPTWScreen {
         assets.put("alarms-2", imagesPath + "/screens/games/alarms-2.png");
         assets.put("airs-0", imagesPath + "/screens/games/airs-0.png");
         assets.put("alarms-0", imagesPath + "/screens/games/alarms-0.png");
+		assets.put(GPTWResources.FIND_THE_CAR_WIN, GPTWResources.FIND_THE_CAR_WIN_IMG);
+		assets.put(GPTWResources.FIND_THE_CAR_LOSE_1, GPTWResources.FIND_THE_CAR_LOSE_1_IMG);
+		assets.put(GPTWResources.FIND_THE_CAR_LOSE_2, GPTWResources.FIND_THE_CAR_LOSE_2_IMG);
+
 
 		String key = this.bgName;
 		//if(Assets.getImage(key) == null){

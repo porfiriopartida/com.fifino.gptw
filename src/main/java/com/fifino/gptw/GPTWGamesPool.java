@@ -6,8 +6,8 @@ package com.fifino.gptw;
 public class GPTWGamesPool {
 
     public static final Class[] LIST = new Class[]{
-            com.fifino.gptw.screens.games.TurnOffAirs.class,
-            com.fifino.gptw.screens.games.TurnOffAlarms.class,
+//            com.fifino.gptw.screens.games.TurnOffAirs.class,
+//            com.fifino.gptw.screens.games.TurnOffAlarms.class,
             com.fifino.gptw.screens.games.FindTheCar.class
     };
 }
