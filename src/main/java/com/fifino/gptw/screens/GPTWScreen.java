@@ -28,7 +28,7 @@ public abstract class GPTWScreen extends Screen{
     protected String name = "noname"; 
     protected boolean isPortrait = true;
     protected Paint paintB, paintW, paintBT;
-    protected int level;
+    protected int level, gamesCounter;
     public enum GameState {
         Ready, Running, Paused, GameOver
     }
@@ -45,9 +45,10 @@ public abstract class GPTWScreen extends Screen{
     public GPTWScreen(Game game){
         this(game, -1);
     }
-    public GPTWScreen(Game game, Integer level) {
+    public GPTWScreen(Game game, Integer gamesCounter) {
         super(game);
-        this.level = level;
+        this.gamesCounter = gamesCounter;
+        this.level = getGameLevel(gamesCounter);
         menuItems = new MenuItemComposite(0, 0); 
         //bgImage =  (AndroidImage)Assets.getImage(Assets.IMAGES_PATH + "/main/gray-bg.png");
         paintB = getPaint();
@@ -58,6 +59,19 @@ public abstract class GPTWScreen extends Screen{
         paintW.setColor(Color.WHITE);
         input = (AndroidInput) game.getInput();
         postConstruct();
+    }
+
+    protected int getGameLevel(int gamesCount){
+        int maxLevel = 5;
+        if(gamesCount <= 3){
+            return 1;
+        } else if(gamesCount <= 5){
+            return 2;
+        } else if(gamesCount <= 10){
+            return 3;
+        } else {
+            return maxLevel;
+        }
     }
     protected Graphics getGraphics(){
         return this.game.getGraphics();

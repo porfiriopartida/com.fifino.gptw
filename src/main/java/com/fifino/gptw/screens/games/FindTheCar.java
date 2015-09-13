@@ -69,8 +69,8 @@ public class FindTheCar extends GPTWScreen implements TouchAction {
     }
     private int getRandomSignImgIdx(int level, int winner, boolean exclude){
         //First level shows up either LU15 or OXX0
-        //int poolSize = level == 1 ? 2:GPTWResources.FIND_THE_CAR_IMG_SIGNS.length;
-        int poolSize = GPTWResources.FIND_THE_CAR_IMG_SIGNS.length;
+        int poolSize = (level == 1 && !exclude) ? 2:GPTWResources.FIND_THE_CAR_IMG_SIGNS.length;
+//        int poolSize = GPTWResources.FIND_THE_CAR_IMG_SIGNS.length;
         int rndIdx;
         do{
             rndIdx = rnd.nextInt(poolSize);
@@ -166,8 +166,8 @@ public class FindTheCar extends GPTWScreen implements TouchAction {
             this.rnd = new Random();
             int maxCars = 5,
                 maxSpeed = 15;
-            totalCars = 2 + level;
-            speed = level * 3 + 4 ;
+            totalCars = 2 + this.level;
+            speed = this.level * 3 + 4 ;
             if(speed > maxSpeed){
                 speed = maxSpeed;
             }

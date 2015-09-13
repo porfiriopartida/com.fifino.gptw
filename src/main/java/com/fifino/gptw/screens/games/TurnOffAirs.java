@@ -29,15 +29,11 @@ public class TurnOffAirs extends GPTWScreen implements TouchAction {
     protected ArrayList<Sprite> activeElements;
     public TurnOffAirs(Game game, Integer level) {
         super(game);
-        int timer = 6 - getDifficulty(level);
+        int timer = 6 - getGameLevel(level);
         if(timer < 3){
             timer = 3;
         }
         setMaxSeconds(timer);
-    }
-
-    public int getDifficulty(int level){
-        return level/3;
     }
 
     @Override

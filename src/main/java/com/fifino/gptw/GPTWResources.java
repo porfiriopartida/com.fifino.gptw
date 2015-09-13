@@ -5,7 +5,7 @@ import com.fifino.framework.assets.Assets;
 /**
  * Created by Arenita on 9/12/2015.
  */
-public class GPTWResources {
+public final class GPTWResources {
     //Keys
     public static final String FIND_THE_CAR_BG = "FIND_THE_CAR_BG";
     public static final String FIND_THE_CAR_SIGN = "FIND_THE_CAR_SIGN";

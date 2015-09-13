@@ -29,6 +29,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Random;
 
 public class GPTWGame extends AndroidGame {
+    Random rnd;
+    int lastGame = -1;
+    int level = 0;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,9 +72,6 @@ public class GPTWGame extends AndroidGame {
         resetFrameBuffer(isPortrait);
         System.out.println(isPortrait ? "PORTRAIT":"LANDSCAPE");
     }
-    Random rnd;
-    int lastGame = -1;
-    int level = 0;
     public Screen getNextScreen(){
         try {
             Class[] gamesPool = GPTWGamesPool.LIST;
