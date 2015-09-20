@@ -93,14 +93,16 @@ public abstract class GPTWScreen extends Screen{
             updateGameOver(touchEvents);
         }
     }
-    public void clean(HashMap<String, String> assets){
+    protected void clean(HashMap<String, String> assets){
         Set<String> keys = assets.keySet();
+        AndroidImage img = null;
         for(String key:keys){
-            if(Assets.getImage(key) != null){
+            img = (AndroidImage) Assets.getImage(key);
+            if(img != null){
                 Assets.remove(key);
+                img.getBitmap().recycle();
             }
         }
-
     }
 
     protected void checkTimeIsZero(){

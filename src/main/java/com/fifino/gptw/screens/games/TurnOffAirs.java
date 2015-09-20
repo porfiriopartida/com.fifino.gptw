@@ -89,14 +89,6 @@ public class TurnOffAirs extends GPTWScreen implements TouchAction {
             }
         }
     }
-    protected void clean(){
-        Set<String> keys = assets.keySet();
-        for(String key:keys){
-            if(Assets.getImage(key) != null){
-                Assets.remove(key);
-            }
-        }
-    }
     //AndroidImage airImage, alarmImage;
     @Override
     protected void setupEntities() {
@@ -205,7 +197,7 @@ public class TurnOffAirs extends GPTWScreen implements TouchAction {
         }
         String bgName = stateName + errorState;
         this.game.setScreen(new MiddleScreen(this.game, bgName));
-        this.clean();
+        this.clean(assets);
     }
     @Override
     public void triggerTouch(Object context) {

@@ -265,6 +265,7 @@ public class FindTheCar extends GPTWScreen implements TouchAction {
     }
     public void lose(boolean timeout){
         this.clean(assets);
-        this.game.setScreen(new MiddleScreen(this.game, timeout ? GPTWResources.FIND_THE_CAR_LOSE_2: GPTWResources.FIND_THE_CAR_LOSE_1));
+        String res = timeout ? GPTWResources.FIND_THE_CAR_LOSE_2: GPTWResources.FIND_THE_CAR_LOSE_1;
+        this.game.setScreen(new MiddleScreen(this.game, res));
     }
 }
