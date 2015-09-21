@@ -7,7 +7,8 @@ import com.fifino.framework.entities.MenuItem;
 import com.fifino.framework.entities.MenuItemComposite;
 import com.fifino.framework.entities.Sprite;
 import com.fifino.framework.events.TouchAction;
-import com.fifino.gptw.GPTWResources;
+import com.fifino.gptw.helpers.GPTWResources;
+import com.fifino.gptw.helpers.GPTWTransition;
 import com.fifino.gptw.screens.GPTWScreen;
 import com.fifino.gptw.screens.MiddleScreen;
 import com.fifino.gptw.screens.games.find_the_car.CarSprite;
@@ -41,7 +42,6 @@ public class FindTheCar extends GPTWScreen implements TouchAction {
     HashMap<String, String> assets;
     @Override
     protected void initializeAssets() {
-        System.out.println("initializeAssets");
         assets = new HashMap<String, String>();
         Graphics g = game.getGraphics();
         //BG
@@ -57,10 +57,10 @@ public class FindTheCar extends GPTWScreen implements TouchAction {
         }
         Set<String> keys = assets.keySet();
         for(String key:keys){
-            if(Assets.getImage(key) == null){
+//            if(Assets.getImage(key) == null){
                 Image bgImage =  g.newImage(assets.get(key), Graphics.ImageFormat.RGB565);
                 Assets.addImage(key, bgImage);
-            }
+//            }
         }
     }
 
@@ -112,8 +112,6 @@ public class FindTheCar extends GPTWScreen implements TouchAction {
         int i;
         int winner = rnd.nextInt(totalCars);
         boolean success;
-        System.out.println("totalCars: " + totalCars);
-        System.out.println("winner: " + winner);
         MenuItem sign = null;
         AndroidImage signImage = null;
         String signImageName = null;
@@ -122,7 +120,6 @@ public class FindTheCar extends GPTWScreen implements TouchAction {
             for(i=0;i<totalCars;i++){
                 success = i == winner;
                 carName = getRandomCarImg();
-                System.out.println("getRandomCarImg carName: " + carName);
                 carImage = Assets.getAndroidImage(carName);
                 //setting up cars to be around bottom centered
                 //Sprite(String assetName, int x, int y) {
@@ -159,7 +156,6 @@ public class FindTheCar extends GPTWScreen implements TouchAction {
     }
     @Override
     protected void setupEntities() {
-        System.out.println("setupEntities");
         try {
             //Helpers
             Graphics g = this.game.getGraphics();
@@ -261,11 +257,19 @@ public class FindTheCar extends GPTWScreen implements TouchAction {
     }
     public void win(){
         this.clean(assets);
-        this.game.setScreen(new MiddleScreen(this.game, GPTWResources.FIND_THE_CAR_WIN));
+        int score = getScore();
+        String res = GPTWResources.FIND_THE_CAR_WIN;
+        GPTWTransition transition = new GPTWTransition(score, score + 100, true, 0);
+        buildMiddleScreen(res, transition);
     }
     public void lose(boolean timeout){
         this.clean(assets);
+        int score = getScore();
+        GPTWTransition transition = new GPTWTransition(score, score + ( timeout ? 0:10), false, 0);
         String res = timeout ? GPTWResources.FIND_THE_CAR_LOSE_2: GPTWResources.FIND_THE_CAR_LOSE_1;
-        this.game.setScreen(new MiddleScreen(this.game, res));
+        buildMiddleScreen(res, transition);
+    }
+    public void buildMiddleScreen(String res, GPTWTransition transition){
+        this.game.setScreen(new MiddleScreen(this.game, res, transition));
     }
 }

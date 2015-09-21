@@ -1,37 +1,24 @@
 package com.fifino.gptw;
 
-import android.content.Context;
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
-import android.graphics.Bitmap.Config;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.PowerManager;
-import android.view.Window;
-import android.view.WindowManager;
 
 import com.fifino.framework.implementation.AndroidEntity;
-import com.fifino.framework.simple.SimpleScreen;
+import com.fifino.gptw.helpers.GPTWGamesPool;
 import com.fifino.gptw.screens.GPTWScreen;
 import com.fifino.gptw.screens.LoadingScreen;
-import com.fifino.gptw.screens.MainMenu;
 import com.kilobolt.framework.Game;
 import com.kilobolt.framework.Screen;
-import com.kilobolt.framework.implementation.AndroidAudio;
-import com.kilobolt.framework.implementation.AndroidFastRenderView;
-import com.kilobolt.framework.implementation.AndroidFileIO;
 import com.kilobolt.framework.implementation.AndroidGame;
-import com.kilobolt.framework.implementation.AndroidGraphics;
-import com.kilobolt.framework.implementation.AndroidInput;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Random;
 
 public class GPTWGame extends AndroidGame {
     Random rnd;
     int lastGame = -1;
     int level = 0;
+    int score;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -88,8 +75,8 @@ public class GPTWGame extends AndroidGame {
 //            String className = gamesPool[nextGame];
 //                cl = Class.forName(className);
             Class cl = gamesPool[nextGame];
-            System.out.println(cl.getName());
-            System.out.println("nextGame: " + nextGame);
+//            System.out.println(cl.getName());
+//            System.out.println("nextGame: " + nextGame);
             Constructor con = cl.getConstructor(Game.class, Integer.class);
             Object xyz = con.newInstance(this, ++level);
             return (GPTWScreen) xyz;
@@ -98,5 +85,14 @@ public class GPTWGame extends AndroidGame {
             System.exit(0);
         }
         return null;
+    }
+
+    @Override
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 }

@@ -6,6 +6,7 @@ import com.fifino.framework.assets.Assets;
 import com.fifino.framework.entities.MenuItem;
 import com.fifino.framework.entities.Sprite;
 import com.fifino.framework.events.TouchAction;
+import com.fifino.gptw.helpers.GPTWTransition;
 import com.fifino.gptw.screens.GPTWScreen;
 import com.fifino.gptw.screens.MiddleScreen;
 import com.kilobolt.framework.Game;
@@ -176,7 +177,7 @@ public class TurnOffAirs extends GPTWScreen implements TouchAction {
     }
 
     @Override
-    protected void checkTimeIsZero(){
+    protected void triggerTimeIsZero(){
         int errorState = 0;
         String stateName = "airs-";
         for(Sprite sprite:activeElements){
@@ -196,8 +197,11 @@ public class TurnOffAirs extends GPTWScreen implements TouchAction {
             }
         }
         String bgName = stateName + errorState;
-        this.game.setScreen(new MiddleScreen(this.game, bgName));
+//        int fromScore, int toScore, boolean isWin, int extra
         this.clean(assets);
+        int currentScore = this.game.getScore();
+        GPTWTransition transition = new GPTWTransition(currentScore, currentScore + 100, errorState == 0, 0);
+        this.game.setScreen(new MiddleScreen(this.game, bgName, transition));
     }
     @Override
     public void triggerTouch(Object context) {

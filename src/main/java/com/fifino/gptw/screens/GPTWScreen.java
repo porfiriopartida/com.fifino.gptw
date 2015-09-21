@@ -2,7 +2,6 @@ package com.fifino.gptw.screens;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 
 import android.graphics.Color;
@@ -11,8 +10,10 @@ import android.graphics.Paint;
 import com.fifino.framework.assets.Assets;
 import com.fifino.framework.entities.MenuItemComposite;
 import com.fifino.gptw.GPTWGame;
+import com.fifino.gptw.helpers.GPTWTransition;
 import com.kilobolt.framework.Game;
 import com.kilobolt.framework.Graphics;
+import com.kilobolt.framework.Image;
 import com.kilobolt.framework.Input.TouchEvent;
 import com.kilobolt.framework.Screen;
 import com.kilobolt.framework.implementation.AndroidImage;
@@ -93,6 +94,16 @@ public abstract class GPTWScreen extends Screen{
             updateGameOver(touchEvents);
         }
     }
+    protected void initializeAssets(HashMap<String, String> assets){
+        Graphics g = getGraphics();
+        Set<String> keys = assets.keySet();
+        for(String key:keys){
+            //if(Assets.getImage(key) == null){
+                Image bgImage =  g.newImage(assets.get(key), Graphics.ImageFormat.RGB565);
+                Assets.addImage(key, bgImage);
+            //}
+        }
+    }
     protected void clean(HashMap<String, String> assets){
         Set<String> keys = assets.keySet();
         AndroidImage img = null;
@@ -105,7 +116,7 @@ public abstract class GPTWScreen extends Screen{
         }
     }
 
-    protected void checkTimeIsZero(){
+    protected void triggerTimeIsZero(){
         try {
             Thread.sleep(1);
         } catch (InterruptedException e) {
@@ -116,7 +127,7 @@ public abstract class GPTWScreen extends Screen{
     protected void checkScreenState(){
         if(this.currentSeconds <= 0){
             this.drawBar(game.getGraphics());
-            checkTimeIsZero();
+            triggerTimeIsZero();
         }
     }
     protected abstract void updateRunning(List<TouchEvent> touchEvents, float deltaTime);
@@ -257,6 +268,15 @@ public abstract class GPTWScreen extends Screen{
     }
     protected Screen getNextScreen(){
         return ((GPTWGame)game).getNextScreen();
+    }
+    protected Screen getScoreScreen(GPTWTransition transition){
+        return new ScoreScreen(this.game, transition);
+    }
+    protected void getScoreScreen(){
+        getScoreScreen(null);
+    }
+    public int getScore(){
+        return this.game.getScore();
     }
 //	@Override
 //	public void backButton() {

@@ -1,4 +1,4 @@
-package com.fifino.gptw;
+package com.fifino.gptw.helpers;
 
 /**
  * Created by porfiriopartida on 9/11/2015.

@@ -85,7 +85,7 @@ public class MainMenu extends GPTWScreen implements TouchAction {
 				event = touchEvents.get(i);
 				point = new Point(event.x, event.y);
 				if(menuItems.collides(point)){
-					System.out.println(menuItems.getLastCollision().getName());
+//					System.out.println(menuItems.getLastCollision().getName());
 					menuItems.getLastCollision().triggerTouchEvent();
 				}
 //                if (event.type == TouchEvent.TOUCH_DOWN) {

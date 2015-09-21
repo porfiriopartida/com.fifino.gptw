@@ -33,11 +33,10 @@ public class LoadingScreen extends GPTWScreen {
         Set<String> keys = assets.keySet();
         int c = 0;
         for(String key:keys){
-            if(Assets.getImage(key) == null){
+//            if(Assets.getImage(key) == null){
                 Image bgImage =  g.newImage(assets.get(key), Graphics.ImageFormat.RGB565);
                 Assets.addImage(key, bgImage);
-            }
-            System.out.println(c/keys.size() + "%");
+//            }
         }
         doneLoading = true;
         this.game.setScreen(new MainMenu(game));

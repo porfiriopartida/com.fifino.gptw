@@ -3,6 +3,7 @@ package com.fifino.gptw.screens.games;
 import com.fifino.framework.assets.Assets;
 import com.fifino.framework.entities.MenuItem;
 import com.fifino.framework.entities.Sprite;
+import com.fifino.gptw.helpers.GPTWTransition;
 import com.fifino.gptw.screens.GPTWScreen;
 import com.fifino.gptw.screens.MiddleScreen;
 import com.kilobolt.framework.Game;
@@ -24,7 +25,7 @@ public class TurnOffAlarms extends TurnOffAirs {
     }
 
     @Override
-    protected void checkTimeIsZero(){
+    protected void triggerTimeIsZero(){
         int errorState = 0;
         String stateName = "alarms-";
         for(Sprite sprite:activeElements){
@@ -44,8 +45,9 @@ public class TurnOffAlarms extends TurnOffAirs {
             }
         }
         String bgName = stateName + errorState;
-        this.game.setScreen(new MiddleScreen(this.game, bgName));
-
         this.clean(assets);
+        int currentScore = this.game.getScore();
+        GPTWTransition transition = new GPTWTransition(currentScore, currentScore + 100, errorState == 0, 0);
+        this.game.setScreen(new MiddleScreen(this.game, bgName, transition));
     }
 }
