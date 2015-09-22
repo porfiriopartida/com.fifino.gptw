@@ -76,19 +76,12 @@ public class TurnOffAirs extends GPTWScreen implements TouchAction {
     @Override
     protected void initializeAssets() {
         assets = new HashMap<String, String>();
-        Graphics g = game.getGraphics();
         String imagesPath = Assets.IMAGES_PATH;
         assets.put("game_1_bg", imagesPath + "/screens/games/airs.png");
         assets.put("game_2_bg", imagesPath + "/screens/games/alarms.png");
         assets.put("sprite_1_1", imagesPath + "/sprites/air.png");
         assets.put("sprite_1_2", imagesPath + "/sprites/alarm.png");
-        Set<String> keys = assets.keySet();
-        for(String key:keys){
-            if(Assets.getImage(key) == null){
-                Image bgImage =  g.newImage(assets.get(key), Graphics.ImageFormat.RGB565);
-                Assets.addImage(key, bgImage);
-            }
-        }
+        this.initializeAssets(assets);
     }
     //AndroidImage airImage, alarmImage;
     @Override
@@ -200,7 +193,7 @@ public class TurnOffAirs extends GPTWScreen implements TouchAction {
 //        int fromScore, int toScore, boolean isWin, int extra
         this.clean(assets);
         int currentScore = this.game.getScore();
-        GPTWTransition transition = new GPTWTransition(currentScore, currentScore + 100, errorState == 0, 0);
+        GPTWTransition transition = new GPTWTransition(currentScore, errorState == 0 ? currentScore + 100:currentScore, errorState == 0, 0);
         this.game.setScreen(new MiddleScreen(this.game, bgName, transition));
     }
     @Override

@@ -55,13 +55,7 @@ public class FindTheCar extends GPTWScreen implements TouchAction {
         for(int i=0;i<GPTWResources.FIND_THE_CAR_IMG_CARS.length;i++){
             assets.put(GPTWResources.FIND_THE_CAR_CAR + i, GPTWResources.FIND_THE_CAR_IMG_CARS[i]);
         }
-        Set<String> keys = assets.keySet();
-        for(String key:keys){
-//            if(Assets.getImage(key) == null){
-                Image bgImage =  g.newImage(assets.get(key), Graphics.ImageFormat.RGB565);
-                Assets.addImage(key, bgImage);
-//            }
-        }
+        this.initializeAssets(assets);
     }
 
     private String getSignImg(int idx){
@@ -125,7 +119,7 @@ public class FindTheCar extends GPTWScreen implements TouchAction {
                 //Sprite(String assetName, int x, int y) {
                 carSprite = new CarSprite(carImage,
                         carName + i,
-                        g.getWidth()/2 - carImage.getWidth()/2 + (i+1)*(carImage.getWidth() + (int)(carImage.getWidth()*.65f)), //1/2 of margin
+                        g.getWidth()/2 - carImage.getWidth()/2 + (i+1)*(carImage.getWidth() + (int)(carImage.getWidth()*.55f)), //1/2 of margin
                         g.getHeight() - carImage.getHeight() - 200,
                         this.speed);
                 carSprite.setName(success ? "winner":carName);
@@ -163,7 +157,7 @@ public class FindTheCar extends GPTWScreen implements TouchAction {
             int maxCars = 5,
                 maxSpeed = 15;
             totalCars = 2 + this.level;
-            speed = this.level * 3 + 4 ;
+            speed = this.level * 2 + 6 ;
             if(speed > maxSpeed){
                 speed = maxSpeed;
             }
@@ -265,7 +259,7 @@ public class FindTheCar extends GPTWScreen implements TouchAction {
     public void lose(boolean timeout){
         this.clean(assets);
         int score = getScore();
-        GPTWTransition transition = new GPTWTransition(score, score + ( timeout ? 0:10), false, 0);
+        GPTWTransition transition = new GPTWTransition(score, score + ( timeout ? 0:-10), false, 0);
         String res = timeout ? GPTWResources.FIND_THE_CAR_LOSE_2: GPTWResources.FIND_THE_CAR_LOSE_1;
         buildMiddleScreen(res, transition);
     }

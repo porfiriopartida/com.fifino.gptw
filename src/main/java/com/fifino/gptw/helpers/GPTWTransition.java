@@ -15,4 +15,36 @@ public class GPTWTransition {
         this.isWin = isWin;
         this.extra = extra;
     }
+
+    public int getFromScore() {
+        return fromScore;
+    }
+
+    public void setFromScore(int fromScore) {
+        this.fromScore = fromScore;
+    }
+
+    public int getToScore() {
+        return toScore;
+    }
+
+    public void setToScore(int toScore) {
+        this.toScore = toScore;
+    }
+
+    public int getExtra() {
+        return extra;
+    }
+
+    public void setExtra(int extra) {
+        this.extra = extra;
+    }
+
+    public boolean isWin() {
+        return isWin;
+    }
+
+    public void setIsWin(boolean isWin) {
+        this.isWin = isWin;
+    }
 }
