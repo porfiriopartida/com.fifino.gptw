@@ -28,6 +28,7 @@ public class TurnOffAirs extends GPTWScreen implements TouchAction {
     private AndroidImage bgImage;
     private Random rnd;
     protected ArrayList<Sprite> activeElements;
+    int lastChanged = -1;
     public TurnOffAirs(Game game, Integer level) {
         super(game);
         int timer = 6 - getGameLevel(level);
@@ -57,6 +58,7 @@ public class TurnOffAirs extends GPTWScreen implements TouchAction {
                         if (item instanceof Sprite) {
                             Sprite sprite = (Sprite)item;
                             sprite.triggerTouchEvent();
+                            lastChanged = getSeconds();
                         }
                     }
                 }
@@ -193,7 +195,7 @@ public class TurnOffAirs extends GPTWScreen implements TouchAction {
 //        int fromScore, int toScore, boolean isWin, int extra
         this.clean(assets);
         int currentScore = this.game.getScore();
-        GPTWTransition transition = new GPTWTransition(currentScore, errorState == 0 ? currentScore + 100:currentScore, errorState == 0, 0);
+        GPTWTransition transition = new GPTWTransition(currentScore, errorState == 0 ? currentScore + (100 + 3 * lastChanged):currentScore-10, errorState == 0, 0);
         this.game.setScreen(new MiddleScreen(this.game, bgName, transition));
     }
     @Override

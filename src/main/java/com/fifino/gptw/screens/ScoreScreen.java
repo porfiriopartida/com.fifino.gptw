@@ -5,12 +5,10 @@ import android.graphics.Paint;
 
 import com.fifino.framework.assets.Assets;
 import com.fifino.framework.entities.MenuItem;
-import com.fifino.gptw.GPTWGame;
 import com.fifino.gptw.helpers.GPTWResources;
 import com.fifino.gptw.helpers.GPTWTransition;
 import com.kilobolt.framework.Game;
 import com.kilobolt.framework.Graphics;
-import com.kilobolt.framework.Image;
 import com.kilobolt.framework.Input.TouchEvent;
 
 import java.util.HashMap;
@@ -22,7 +20,8 @@ public class ScoreScreen extends GPTWScreen {
 	int min, max, step, current;
 	boolean done = false;
 	boolean isWin = false;
-	Paint paintW;
+	int fontSize = 165;
+	Paint paintScore;
 	public ScoreScreen(Game game, GPTWTransition transition) {
 		super(game);
 		this.transition = transition;
@@ -31,10 +30,13 @@ public class ScoreScreen extends GPTWScreen {
 		min = transition.getFromScore();
 		max = transition.getToScore();
 		isWin = transition.isWin();
-		step = (max-min)/10;
+		step = (max-min)/20;
 		current = min;
-		paintW = getPaint();
-		paintW.setColor(Color.WHITE);
+		paintScore = getPaint();
+		//rgb(241,89,34)
+//		paintScore.setTextAlign(Paint.Align.CENTER);
+		paintScore.setTextSize(fontSize);
+		paintScore.setARGB(255,241, 89, 34);
 		game.setScore(max);
 	}
 
@@ -81,10 +83,11 @@ public class ScoreScreen extends GPTWScreen {
           g.fillRect(0, 0, g.getWidth(), g.getHeight(), Color.WHITE);
 		this.menuItems.draw(g);
 		String scoreText = getScoreText();
-		int x = g.getWidth()/2 - scoreText.length()*40/2,
-			y = g.getHeight()/2 - 40/2;
+		int x = g.getWidth()/2,
+			y = g.getHeight() - 50;
 		//drawString(String text, int x, int y, Paint paint)
-		g.drawString(scoreText, x, y, paintW);
+		g.fillRect(0, y - fontSize, g.getWidth(), fontSize + 100, Color.WHITE);
+		g.drawString(scoreText, x, y, paintScore);
 	}
 	private String getScoreText(){
 		return ""+current;

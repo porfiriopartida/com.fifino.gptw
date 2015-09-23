@@ -1,5 +1,6 @@
 package com.fifino.gptw.screens;
 
+import java.util.HashMap;
 import java.util.List;
 
 import android.graphics.Color;
@@ -8,6 +9,7 @@ import android.graphics.Point;
 import com.fifino.framework.assets.Assets;
 import com.fifino.framework.entities.MenuItem;
 import com.fifino.framework.events.TouchAction;
+import com.fifino.gptw.helpers.GPTWResources;
 import com.kilobolt.framework.Game;
 import com.kilobolt.framework.Graphics;
 import com.kilobolt.framework.Input.TouchEvent;
@@ -20,27 +22,27 @@ public class MainMenu extends GPTWScreen implements TouchAction {
 
 	@Override
 	protected void initializeAssets() {
+		HashMap<String, String> assets = new HashMap<String, String>();
+		String imagesPath = Assets.IMAGES_PATH;
+		Graphics g = game.getGraphics();
+		assets.put(GPTWResources.GPTW_MAIN_BG, GPTWResources.GPTW_MAIN_BG_IMG);
+		assets.put(GPTWResources.GPTW_MAIN_START, GPTWResources.GPTW_MAIN_START_IMG);
+		this.initializeAssets(assets);
 	}
-	MenuItem startButton, exitButton;
+	MenuItem startButton;
 	@Override
 	protected void setupEntities() {
 		Graphics g = game.getGraphics();
-		bgImage = Assets.getAndroidImage("mainBg");
-		startButton = new MenuItem(Assets.getAndroidImage("mainStart"), 10, 10 );
-		exitButton = new MenuItem(Assets.getAndroidImage("mainExit"), 10, 50);
-		exitButton.setY(g.getHeight() - exitButton.getHeight() - 15);
-		startButton.setY(exitButton.getY() - exitButton.getHeight() - 15);
+		bgImage = Assets.getAndroidImage(GPTWResources.GPTW_MAIN_BG);
+		startButton = new MenuItem(Assets.getAndroidImage(GPTWResources.GPTW_MAIN_START), 10, 10 );
+		startButton.setY(g.getHeight() - startButton.getHeight());
 		startButton.setX(g.getWidth() / 2 - startButton.getWidth() / 2);
 		startButton.setName("start");
-		exitButton.setName("exit");
 		startButton.addTouchListener(this);
-		exitButton.addTouchListener(this);
-		exitButton.setX(g.getWidth() / 2 - startButton.getWidth() / 2);
 		MenuItem bg = new MenuItem(bgImage, 0, 0);
 		bg.setCollidable(false);
 		this.menuItems.add(bg);
 		this.menuItems.add(startButton);
-		this.menuItems.add(exitButton);
 		this.state = GameState.Running;
 	}
 
@@ -120,9 +122,7 @@ public class MainMenu extends GPTWScreen implements TouchAction {
 	@Override
 	public void triggerTouch(Object context) {
 		MenuItem item = (MenuItem)context;
-		if("exit".equals(item.getName())){
-			System.exit(0);
-		}else{
+		if("start".equals(item.getName())){
 			game.setScreen(getNextScreen());
 		}
 	}

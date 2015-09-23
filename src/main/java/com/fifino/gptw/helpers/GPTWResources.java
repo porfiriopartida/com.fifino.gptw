@@ -7,6 +7,15 @@ import com.fifino.framework.assets.Assets;
  */
 public final class GPTWResources {
 
+    /* Main Screen resources */
+    public static final String GPTW_MAIN_BG = "GPTW_MAIN_BG";
+    public static final String GPTW_MAIN_BG_IMG = Assets.IMAGES_PATH + "/screens/main/bg.png";
+    public static final String GPTW_MAIN_START = "GPTW_MAIN_START";
+    public static final String GPTW_MAIN_START_IMG = Assets.IMAGES_PATH + "/screens/main/start.png";
+
+
+    /* End resources */
+
     /* Score resources */
     //Keys
     public static final String GPTW_SCORE_BG = "GPTW_SCORE_BG";
