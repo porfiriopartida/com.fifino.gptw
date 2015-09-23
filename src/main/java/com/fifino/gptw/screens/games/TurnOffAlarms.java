@@ -30,7 +30,7 @@ public class TurnOffAlarms extends TurnOffAirs {
         String stateName = "alarms-";
         for(Sprite sprite:activeElements){
             boolean isAir = "air".equals(sprite.getName());
-            boolean isOn = (boolean) sprite.getAttribute("status");
+            boolean isOn = (Boolean) sprite.getAttribute("status");
             if(isAir){
                 if(!isOn){
                     stateName = "airs-";

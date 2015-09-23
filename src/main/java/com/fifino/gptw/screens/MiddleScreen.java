@@ -31,7 +31,7 @@ public class MiddleScreen extends GPTWScreen {
 	@Override
 	protected void initializeAssets() {
 		HashMap<String, String> assets;
-		assets = new HashMap<>();
+		assets = new HashMap<String, String>();
 		Graphics g = game.getGraphics();
 		String imagesPath = Assets.IMAGES_PATH;
 
