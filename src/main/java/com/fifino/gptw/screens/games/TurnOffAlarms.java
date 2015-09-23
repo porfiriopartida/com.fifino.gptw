@@ -47,7 +47,7 @@ public class TurnOffAlarms extends TurnOffAirs {
         String bgName = stateName + errorState;
         this.clean(assets);
         int currentScore = this.game.getScore();
-        GPTWTransition transition = new GPTWTransition(currentScore, currentScore + 100, errorState == 0, 0);
+        GPTWTransition transition = new GPTWTransition(currentScore, errorState == 0 ? currentScore + (100 + 3 * lastChanged):currentScore-10, errorState == 0, 0);
         this.game.setScreen(new MiddleScreen(this.game, bgName, transition));
     }
 }

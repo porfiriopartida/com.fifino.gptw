@@ -4,6 +4,7 @@ import android.graphics.Point;
 
 import com.fifino.framework.assets.Assets;
 import com.fifino.framework.entities.MenuItem;
+import com.fifino.gptw.helpers.GPTWResources;
 import com.kilobolt.framework.Game;
 import com.kilobolt.framework.Graphics;
 import com.kilobolt.framework.Image;
@@ -20,34 +21,13 @@ public class LoadingScreen extends GPTWScreen {
         super(game);
         this.state = GameState.Running;
 	}
-    /**
-     * Initializes all other assets so game runs smoothly :O
-     */
-    private void initializeAllAssets(){
-        HashMap<String, String> assets = new HashMap<String, String>();
-        String imagesPath = Assets.IMAGES_PATH;
-        Graphics g = game.getGraphics();
-        assets.put("mainBg", imagesPath + "/screens/main/bg.png");
-        assets.put("mainStart", imagesPath + "/screens/main/start.png");
-        assets.put("mainExit", imagesPath + "/screens/main/exit.png");
-        Set<String> keys = assets.keySet();
-        int c = 0;
-        for(String key:keys){
-//            if(Assets.getImage(key) == null){
-                Image bgImage =  g.newImage(assets.get(key), Graphics.ImageFormat.RGB565);
-                Assets.addImage(key, bgImage);
-//            }
-        }
-        doneLoading = true;
-        this.game.setScreen(new MainMenu(game));
-    }
     Point last = null;
     @Override
     protected void drawRunningUI(List<TouchEvent> touchEvents, float deltaTime){
         Graphics g = game.getGraphics();
         loadingScreen.draw(g);
         if(last != null){
-            g.drawCircle(last.x, last.y, 10, paintB);
+            g.drawCircle(last.x, last.y, 50, paintB);
         }
     }
     @Override
@@ -68,6 +48,15 @@ public class LoadingScreen extends GPTWScreen {
 //                }
             }
         }
+        if(!doneLoading){
+            doneLoading = true;
+            loadMenuScreen();
+        }
+    }
+    private void loadMenuScreen(){
+        this.state = GameState.Paused;
+        MainMenu menuScreen = new MainMenu(game);
+        this.game.setScreen(menuScreen);
     }
 
     /**
@@ -87,12 +76,7 @@ public class LoadingScreen extends GPTWScreen {
     protected void setupEntities() {
         AndroidImage image = Assets.getAndroidImage("loading");
         loadingScreen = new MenuItem(image, 0, 0);
-        new Thread(){
-            @Override
-            public void run(){
-                initializeAllAssets();
-            }
-        }.start();
+        doneLoading = false;
     }
 
     @Override

@@ -259,7 +259,7 @@ public class FindTheCar extends GPTWScreen implements TouchAction {
     public void lose(boolean timeout){
         this.clean(assets);
         int score = getScore();
-        GPTWTransition transition = new GPTWTransition(score, score + ( timeout ? 0:-10), false, 0);
+        GPTWTransition transition = new GPTWTransition(score, score + ( timeout ? -10:-25), false, 0);
         String res = timeout ? GPTWResources.FIND_THE_CAR_LOSE_2: GPTWResources.FIND_THE_CAR_LOSE_1;
         buildMiddleScreen(res, transition);
     }
