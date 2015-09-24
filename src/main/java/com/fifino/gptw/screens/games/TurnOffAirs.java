@@ -177,7 +177,7 @@ public class TurnOffAirs extends GPTWScreen implements TouchAction {
         String stateName = "airs-";
         for(Sprite sprite:activeElements){
             boolean isAir = "air".equals(sprite.getName());
-            boolean isOn = (boolean) sprite.getAttribute("status");
+            boolean isOn = (Boolean) sprite.getAttribute("status");
             if(isAir){
                 if(isOn){
                     errorState = 1;
@@ -201,7 +201,7 @@ public class TurnOffAirs extends GPTWScreen implements TouchAction {
     @Override
     public void triggerTouch(Object context) {
         Sprite sprite = (Sprite)context;
-        boolean isOn = (boolean) sprite.getAttribute("status");
+        boolean isOn = (Boolean) sprite.getAttribute("status");
         sprite.setAttribute("status", !isOn);
         try {
             sprite.playAnimation(!isOn ? "on" : "idle");
