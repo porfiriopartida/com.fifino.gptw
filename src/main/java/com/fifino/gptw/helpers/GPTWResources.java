@@ -19,10 +19,10 @@ public final class GPTWResources {
     /* Score resources */
     //Keys
     public static final String GPTW_SCORE_BG = "GPTW_SCORE_BG";
-    public static final String GPTW_SCORE_LIVE = "GPTW_SCORE_LIVE";
+    public static final String GPTW_SCORE_LIVES = "GPTW_SCORE_LIVES";
     //Images
     public static final String GPTW_SCORE_BG_IMG = Assets.IMAGES_PATH + "/screens/scores/bg.png";
-    public static final String GPTW_SCORE_LIVE_IMG = Assets.IMAGES_PATH + "/screens/scores/live.png";
+    public static final String GPTW_SCORE_LIVES_IMG = Assets.IMAGES_PATH + "/screens/scores/lives.png";
 
     /* End score resources */
 

@@ -9,6 +9,7 @@ import android.graphics.Point;
 import com.fifino.framework.assets.Assets;
 import com.fifino.framework.entities.MenuItem;
 import com.fifino.framework.events.TouchAction;
+import com.fifino.gptw.GPTWGame;
 import com.fifino.gptw.helpers.GPTWResources;
 import com.kilobolt.framework.Game;
 import com.kilobolt.framework.Graphics;
@@ -23,8 +24,6 @@ public class MainMenu extends GPTWScreen implements TouchAction {
 	@Override
 	protected void initializeAssets() {
 		HashMap<String, String> assets = new HashMap<String, String>();
-		String imagesPath = Assets.IMAGES_PATH;
-		Graphics g = game.getGraphics();
 		assets.put(GPTWResources.GPTW_MAIN_BG, GPTWResources.GPTW_MAIN_BG_IMG);
 		assets.put(GPTWResources.GPTW_MAIN_START, GPTWResources.GPTW_MAIN_START_IMG);
 		this.initializeAssets(assets);
@@ -123,6 +122,9 @@ public class MainMenu extends GPTWScreen implements TouchAction {
 	public void triggerTouch(Object context) {
 		MenuItem item = (MenuItem)context;
 		if("start".equals(item.getName())){
+			GPTWGame game = (GPTWGame) this.game;
+			game.setScore(0);
+			game.setLives(3);
 			game.setScreen(getNextScreen());
 		}
 	}

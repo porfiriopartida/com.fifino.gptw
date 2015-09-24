@@ -19,6 +19,7 @@ public class GPTWGame extends AndroidGame {
     int lastGame = -1;
     int level = 0;
     int score;
+    int lives = 3;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -94,5 +95,16 @@ public class GPTWGame extends AndroidGame {
 
     public void setScore(int score) {
         this.score = score;
+    }
+    public int loseLive(){
+        this.lives--;
+        return this.lives;
+    }
+
+    public int getLives() {
+        return lives;
+    }
+    public void setLives(int lives) {
+        this.lives = lives;
     }
 }
