@@ -33,6 +33,7 @@ public class FindTheCar extends GPTWScreen implements TouchAction {
     MenuItemComposite carSprites;
     public FindTheCar(Game game, Integer level) {
         super(game, level);
+        this.state = GameState.Running;
 //        if(timer < 3){
 //            timer = 3;
 //        }
@@ -193,12 +194,6 @@ public class FindTheCar extends GPTWScreen implements TouchAction {
     public void dispose() {
 
     }
-
-    @Override
-    public void backButton() {
-        System.exit(0);
-    }
-
 
     @Override
     protected void updateRunning(List<Input.TouchEvent> touchEvents, float deltaTime) {

@@ -1,8 +1,11 @@
 package com.fifino.gptw.screens.games;
 
+import android.graphics.Color;
+
 import com.fifino.framework.assets.Assets;
 import com.fifino.framework.entities.MenuItem;
 import com.fifino.framework.entities.Sprite;
+import com.fifino.gptw.helpers.GPTWHint;
 import com.fifino.gptw.helpers.GPTWTransition;
 import com.fifino.gptw.screens.GPTWScreen;
 import com.fifino.gptw.screens.MiddleScreen;
@@ -49,5 +52,11 @@ public class TurnOffAlarms extends TurnOffAirs {
         int currentScore = this.game.getScore();
         GPTWTransition transition = new GPTWTransition(currentScore, errorState == 0 ? currentScore + (100 + 3 * lastChanged):currentScore-10, errorState == 0, 0);
         this.game.setScreen(new MiddleScreen(this.game, bgName, transition));
+    }
+
+    GPTWHint[] hints = new GPTWHint[]{new GPTWHint("TURN", Color.BLACK), new GPTWHint("ON the AIRS", Color.GREEN), new GPTWHint("OFF the ALARMS", Color.RED)};
+    @Override
+    public GPTWHint[] getHints() {
+        return hints;
     }
 }

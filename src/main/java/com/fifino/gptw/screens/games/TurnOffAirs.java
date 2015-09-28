@@ -1,11 +1,13 @@
 package com.fifino.gptw.screens.games;
 
+import android.graphics.Color;
 import android.graphics.Point;
 
 import com.fifino.framework.assets.Assets;
 import com.fifino.framework.entities.MenuItem;
 import com.fifino.framework.entities.Sprite;
 import com.fifino.framework.events.TouchAction;
+import com.fifino.gptw.helpers.GPTWHint;
 import com.fifino.gptw.helpers.GPTWTransition;
 import com.fifino.gptw.screens.GPTWScreen;
 import com.fifino.gptw.screens.MiddleScreen;
@@ -25,7 +27,7 @@ import java.util.Set;
  * Created by ppartida on 6/23/15.
  */
 public class TurnOffAirs extends GPTWScreen implements TouchAction {
-    private AndroidImage bgImage;
+//    private AndroidImage bgImage;
     private Random rnd;
     protected ArrayList<Sprite> activeElements;
     int lastChanged = -1;
@@ -38,8 +40,28 @@ public class TurnOffAirs extends GPTWScreen implements TouchAction {
         setMaxSeconds(timer);
     }
 
+    protected void updateHint(){
+        float percent = getPercentTimer();
+//        if(percent > 0.7f){
+//            percent = 0.8f;
+//        } else if(percent > 0.2){
+//            percent = 0.5f;
+//        } else if(percent > 0){
+//            percent = 0.2f;
+//        }
+//        percent = 0.8f;
+        percent -= 0.5f;
+        if(percent <= 0){
+            percent = 0;
+        }
+        int newAlpha = (int)(255*percent);
+//        paintBG.setARGB(newAlpha, 0, 0, 0);
+        this.bgFontAlpha = newAlpha;
+    }
+
     @Override
     protected void updateRunning(List<Input.TouchEvent> touchEvents, float deltaTime) {
+        updateHint();
         this.updateTime();
         this.menuItems.update(deltaTime);
 
@@ -68,11 +90,10 @@ public class TurnOffAirs extends GPTWScreen implements TouchAction {
     @Override
     public void drawRunningUI(List<Input.TouchEvent> touchEvents, float deltaTime){
         Graphics g = game.getGraphics();
+        this.drawReadyUI(touchEvents, deltaTime);
+
         this.menuItems.draw(g);
         this.drawBar(g);
-    }
-    protected String getBackgroundKey(){
-        return "game_1_bg";
     }
     HashMap<String, String> assets;
     @Override
@@ -91,18 +112,18 @@ public class TurnOffAirs extends GPTWScreen implements TouchAction {
         try {
             Graphics g = this.game.getGraphics();
             this.rnd = new Random();
-            this.state = GameState.Running;
-            this.bgImage = Assets.getAndroidImage(getBackgroundKey());
-            MenuItem bgItem = new MenuItem(this.bgImage, 0, 0);
-            bgItem.setCollidable(false);
-            this.menuItems.add(bgItem);
+//            this.state = GameState.Running;
+//            this.bgImage = Assets.getAndroidImage(getBackgroundKey());
+//            MenuItem bgItem = new MenuItem(this.bgImage, 0, 0);
+//            bgItem.setCollidable(false);
+//            this.menuItems.add(bgItem);
             Sprite sprite = null;
             int x, y = 60, midX, thirdY;
             midX = g.getWidth()/2;
             thirdY = (g.getHeight() - 65 - 5 - 40)/3;
             this.activeElements = new ArrayList<Sprite>();
             for(int i=0; i<3;i++){
-                y = 65+(thirdY+5)*i;
+                y = 100+(thirdY+5)*i;
                 for(int j=0; j<2;j++){
                     sprite = getRandomSprite();
                     x = midX*j + midX/2 - sprite.getWidth()/2;
@@ -162,11 +183,6 @@ public class TurnOffAirs extends GPTWScreen implements TouchAction {
     }
 
     @Override
-    public void backButton() {
-        System.exit(0);
-    }
-
-    @Override
     public void triggerTouch(String eventName, Object context) {
         triggerTouch(context);
     }
@@ -208,5 +224,11 @@ public class TurnOffAirs extends GPTWScreen implements TouchAction {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    GPTWHint[] hints = new GPTWHint[]{new GPTWHint("TURN", Color.BLACK), new GPTWHint("ON the ALARMS", Color.GREEN), new GPTWHint("OFF the AIRS", Color.RED)};
+    @Override
+    public GPTWHint[] getHints() {
+        return hints;
     }
 }

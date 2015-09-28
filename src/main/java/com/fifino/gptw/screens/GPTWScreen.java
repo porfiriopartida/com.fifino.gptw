@@ -10,6 +10,7 @@ import android.graphics.Paint;
 import com.fifino.framework.assets.Assets;
 import com.fifino.framework.entities.MenuItemComposite;
 import com.fifino.gptw.GPTWGame;
+import com.fifino.gptw.helpers.GPTWHint;
 import com.fifino.gptw.helpers.GPTWTransition;
 import com.kilobolt.framework.Game;
 import com.kilobolt.framework.Graphics;
@@ -20,7 +21,7 @@ import com.kilobolt.framework.implementation.AndroidImage;
 import com.kilobolt.framework.implementation.AndroidInput;
 
 public abstract class GPTWScreen extends Screen{
-	protected GameState state = GameState.Running;
+	protected GameState state = GameState.Ready;
 
     AndroidInput input;
     protected int maxSeconds = 0, currentSeconds = 0;
@@ -28,7 +29,7 @@ public abstract class GPTWScreen extends Screen{
     protected AndroidImage bgImage;
     protected String name = "noname"; 
     protected boolean isPortrait = true;
-    protected Paint paintB, paintW, paintBT;
+    protected Paint paintB, paintW, paintBT, paintBG;
     protected int level, gamesCounter;
     public enum GameState {
         Ready, Running, Paused, GameOver
@@ -57,8 +58,13 @@ public abstract class GPTWScreen extends Screen{
         paintBT = getPaint();
         paintBT.setColor(Color.BLACK);
         paintBT.setAlpha(200);
+        paintBG = getPaint();
+        paintBG.setColor(Color.BLACK);
+        paintBG.setTextSize(100);
+        paintBG.setTextAlign(Paint.Align.CENTER);
         paintW.setColor(Color.WHITE);
         input = (AndroidInput) game.getInput();
+        readyTime = getTimestamp();
         postConstruct();
     }
 
@@ -80,19 +86,6 @@ public abstract class GPTWScreen extends Screen{
     protected void postConstruct(){
         initializeAssets();
         setupEntities();
-    }
-    @Override
-    public void update(float deltaTime) {
-        List<TouchEvent> touchEvents = game.getInput().getTouchEvents();
-        if (state == GameState.Ready) {
-            updateReady(touchEvents);
-        } else if (state == GameState.Running) {
-            updateRunning(touchEvents, deltaTime);
-        } else if (state == GameState.Paused) {
-            updatePaused(touchEvents, deltaTime);
-        } else if (state == GameState.GameOver) {
-            updateGameOver(touchEvents);
-        }
     }
     protected void initializeAssets(HashMap<String, String> assets){
         Graphics g = getGraphics();
@@ -147,21 +140,21 @@ public abstract class GPTWScreen extends Screen{
             }
         }
     }
+    protected long readyTime = 0;
+    protected int bgFontAlpha = 255;
+    int hintWaitSeconds = 2000, hintWaitSecondsLow = 1000;
     protected void updateReady(List<TouchEvent> touchEvents) {
-        int len = touchEvents.size();
-        if (len > 0) {
-            for (int i = 0; i < len; i++) {
-                if (touchEvents.size() < len) {
-                    // Handles out of bounds exception for the list getting empty
-                    // after getting the size.
-                    return;
-                }
-                TouchEvent event = touchEvents.get(i);
-                if (event.type == TouchEvent.TOUCH_DOWN) {
-                    state = GameState.Running;
-                }
-            }
+        long diff = getTimestamp() - readyTime;
+        if(touchEvents.size() > 0){
+            hintWaitSeconds = 0;
         }
+        if(diff > hintWaitSeconds) {
+            setGameState(GameState.Running);
+            lastTime = getTimestamp();
+        } else if(diff > hintWaitSecondsLow){
+            bgFontAlpha = (int) (255*.9f);
+        }
+//        paintBG.setARGB(bgFontAlpha, 0, 0, 0);
     }
     protected void updatePaused(List<TouchEvent> touchEvents, float deltaTime) {
         int len = touchEvents.size();
@@ -206,13 +199,44 @@ public abstract class GPTWScreen extends Screen{
             drawGameOverUI(touchEvents);
         }
     }
-    protected void drawGameOverUI(List<TouchEvent> touchEvents) {
+    @Override
+    public void update(float deltaTime) {
+        List<TouchEvent> touchEvents = game.getInput().getTouchEvents();
+        if (state == GameState.Ready) {
+            updateReady(touchEvents);
+        } else if (state == GameState.Running) {
+            updateRunning(touchEvents, deltaTime);
+        } else if (state == GameState.Paused) {
+            updatePaused(touchEvents, deltaTime);
+        } else if (state == GameState.GameOver) {
+            updateGameOver(touchEvents);
+        }
+    }
+    protected void drawReadyUI(List<TouchEvent> touchEvents, float deltaTime) {
+        Graphics g = game.getGraphics();
+        g.fillRect(0, 0, g.getWidth(), g.getHeight(), getBackgroundColor());
+        GPTWHint[] hints = getHints();
+        int hintHeight = 80;
+        int hintMargin = 80;
+        int moved = hints.length % 2 == 0 ? hints.length/2:(hints.length+1)/2;
+
+        int y = g.getHeight()/2 - hintHeight*moved - hintMargin*moved;
+        Paint bgFont = getBackgroundFont();
+        int x =  g.getWidth() / 2;
+        for(GPTWHint hint : hints ){
+            bgFont.setColor(hint.getColor());
+            bgFont.setAlpha(this.bgFontAlpha);
+            g.drawString(hint.getHint(), x, y, bgFont);
+            y += hintHeight + hintMargin;
+        }
+    }
+    protected void drawRunningUI(List<TouchEvent> touchEvents, float deltaTime) {
         Graphics g = game.getGraphics();
         g.fillRect(0, 0, g.getWidth(), 120, Color.WHITE);
         g.drawString("Nothing implemented yet.", g.getWidth() / 2 - 25, 40,
                 paintB);
-	}
-    protected void drawRunningUI(List<TouchEvent> touchEvents, float deltaTime) {
+    }
+    protected void drawGameOverUI(List<TouchEvent> touchEvents) {
         Graphics g = game.getGraphics();
         g.fillRect(0, 0, g.getWidth(), 120, Color.WHITE);
         g.drawString("Nothing implemented yet.", g.getWidth() / 2 - 25, 40,
@@ -231,18 +255,22 @@ public abstract class GPTWScreen extends Screen{
         g.drawString("GAME PAUSED - Tap to Resume", g.getWidth() / 2 - 25, 40,
                 paintB);
     }
-    protected void drawReadyUI(List<TouchEvent> touchEvents, float deltaTime) {
-        Graphics g = game.getGraphics();
-        g.fillRect(0, 0, g.getWidth(), 120, Color.WHITE);
-        g.drawString("Nothing implemented yet.", g.getWidth() / 2 - 25, 40,
-                paintB);		
-	}
+    public GPTWHint[] getHints(){
+        return null;
+    }
+    public int getBackgroundColor(){
+        return Color.WHITE;
+    }
+    public Paint getBackgroundFont(){
+        return paintBG;
+    }
     public int getMaxSeconds() {
         return maxSeconds;
     }
     public int getSeconds() {
         return currentSeconds;
     }
+
 
     public void setMaxSeconds(int maxSeconds) {
         maxSeconds *= 10;
@@ -253,12 +281,21 @@ public abstract class GPTWScreen extends Screen{
     protected long getTimestamp(){
         return Calendar.getInstance().getTimeInMillis();
     }
-    long lastTime;
+    protected long lastTime;
+    protected long getDiff(){
+        return getTimestamp() - lastTime;
+    }
+    protected float getPercentTimer(){
+        if(this.currentSeconds <= 0 || this.maxSeconds <= 0){
+            return 0;
+        }
+        return (float)this.currentSeconds/this.maxSeconds;
+    }
     protected void updateTime(){
         if(this.maxSeconds <= 0){
             return;
         }
-        long diff = getTimestamp() - lastTime;
+        long diff = getDiff();
         if(diff > 100) {
             //Update every second.
             this.currentSeconds -= (diff/100);
@@ -272,14 +309,17 @@ public abstract class GPTWScreen extends Screen{
     protected Screen getScoreScreen(GPTWTransition transition){
         return new ScoreScreen(this.game, transition);
     }
-    protected void getScoreScreen(){
-        getScoreScreen(null);
-    }
     public int getScore(){
         return this.game.getScore();
     }
-//	@Override
-//	public void backButton() {
-//		System.exit(0);
-//	}
+	@Override
+	public void backButton() {
+        if(this.state == GameState.Running){
+            setGameState(GameState.Paused);
+        } else if(this.state == GameState.Paused){
+            setGameState(GameState.Running);
+        } else {
+            System.exit(0);
+        }
+	}
 }

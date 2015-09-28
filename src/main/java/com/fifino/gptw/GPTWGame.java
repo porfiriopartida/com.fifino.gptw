@@ -104,7 +104,22 @@ public class GPTWGame extends AndroidGame {
     public int getLives() {
         return lives;
     }
+
     public void setLives(int lives) {
         this.lives = lives;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public void reset() {
+        setScore(0);
+        setLives(3);
+        setLevel(0);
     }
 }

@@ -127,18 +127,19 @@ public class ScoreScreen extends GPTWScreen {
 	@Override
 	protected void updateRunning(List<TouchEvent> touchEvents, float deltaTime) {
 		this.menuItems.update(deltaTime);
+		long timestamp = getTimestamp();
 		if(!done){
 			current += step;
 			if((current > max || touchEvents.size() > 0)){
 				current = max;
 				done = true;
-				lastTime = getTimestamp();
+				lastTime = timestamp;
 			}
 		}
-		if(done && this.getTimestamp() > lastTime + 2000 || this.getTimestamp() > lastTime + 5000){
+		if(done && timestamp > lastTime + 2000 || timestamp > lastTime + 5000 || (done && touchEvents.size() > 0 && timestamp > lastTime + 1000)){
 			this.clean(this.assets);
 			game.setScreen(getCheckLivesScreen());
-			this.state = GameState.Paused;
+//			this.state = GameState.Paused;
 		}
 	}
 	private Screen getCheckLivesScreen(){

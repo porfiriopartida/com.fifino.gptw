@@ -123,8 +123,7 @@ public class MainMenu extends GPTWScreen implements TouchAction {
 		MenuItem item = (MenuItem)context;
 		if("start".equals(item.getName())){
 			GPTWGame game = (GPTWGame) this.game;
-			game.setScore(0);
-			game.setLives(3);
+			game.reset();
 			game.setScreen(getNextScreen());
 		}
 	}
