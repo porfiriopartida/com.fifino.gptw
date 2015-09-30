@@ -31,11 +31,11 @@ public class WakeUp extends GPTWScreen {
         super(game, level);
         this.state = GameState.Running; // avoids hint rendering.
         int curLvl = getGameLevel(level);
-        int timer = 6 - curLvl;
-        if(timer < 3){
-            timer = 3;
+        int timer = 5 - curLvl;
+        if(timer < 2){
+            timer = 2;
         }
-        hits = curLvl * 5 + 1;
+        hits = curLvl * 6 + 2;
         setMaxSeconds(timer);
 //        hintWaitSeconds = 1500;
     }
@@ -112,7 +112,7 @@ public class WakeUp extends GPTWScreen {
     public void drawRunningUI(List<Input.TouchEvent> touchEvents, float deltaTime){
         Graphics g = game.getGraphics();
         this.menuItems.draw(g);
-        //this.drawBar(g);
+        this.drawBar(g);
     }
 
     public void win(){

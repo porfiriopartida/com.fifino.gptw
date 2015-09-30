@@ -14,6 +14,7 @@ import com.fifino.gptw.screens.games.find_the_car.CarSprite;
 import com.kilobolt.framework.Game;
 import com.kilobolt.framework.Graphics;
 import com.kilobolt.framework.Input;
+import com.kilobolt.framework.implementation.AndroidImage;
 
 import java.util.HashMap;
 import java.util.List;
@@ -33,6 +34,7 @@ public class Spamranhas extends GPTWScreen implements TouchAction {
         }
         //lv 1 = 2, lv 2 = 4, lv 3 = 6
         spamranhasCounter = (int)(1 + getGameLevel(level) * 1.7f);
+        spamranhasCounter = 1;
         setMaxSeconds(timer);
 //        hintWaitSeconds = 1500;
     }
@@ -52,9 +54,19 @@ public class Spamranhas extends GPTWScreen implements TouchAction {
         bgItem.setCollidable(false);
         this.menuItems.add(bgItem); //bg should be first
     }
+    MenuItem inboxItem;
     private void setupInbox(){
+        Graphics g = getGraphics();
+        AndroidImage inboxImage = Assets.getAndroidImage(GPTWResources.SPAMRANHAS_INBOX);
+        int x = g.getWidth()/2 - inboxImage.getWidth()/2 , y = g.getHeight()/2 - inboxImage.getHeight()/2;
+        inboxItem = new MenuItem(inboxImage, x, y);
+
+        this.menuItems.add(inboxItem);
     }
     private void setupSpamEmails(){
+        //TODO: Add piranhas here, use the counter generated in the constructor, random position
+        //TODO: Create the piranha sprite to update giving the center and move there
+//        this.menuItems.add(inboxItem);
     }
     @Override
     protected void setupEntities() {
@@ -133,6 +145,7 @@ public class Spamranhas extends GPTWScreen implements TouchAction {
         buildMiddleScreen(res, transition);
     }
 
+    //TODO: Remove this since you will lose on contact
     @Override
     protected void triggerTimeIsZero() {
         lose();
