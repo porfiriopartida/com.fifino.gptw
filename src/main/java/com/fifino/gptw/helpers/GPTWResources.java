@@ -62,4 +62,7 @@ public final class GPTWResources {
     public static final String FIND_THE_CAR_LOSE_2_IMG = Assets.IMAGES_PATH + "/screens/games/cars-2.png";
     // End Images
     /* End Find the Car*/
+
+    /* TURN ON THE AIRS */
+    /* End turn on the AIRS */
 }

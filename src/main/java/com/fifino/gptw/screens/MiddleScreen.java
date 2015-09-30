@@ -84,13 +84,13 @@ public class MiddleScreen extends GPTWScreen {
           g.fillRect(0, 0, g.getWidth(), g.getHeight(), Color.WHITE);
 		this.menuItems.draw(g);
 	}
-	int waitMS = 2500;
+	int waitMS = 1800;
 	@Override
 	protected void updateRunning(List<TouchEvent> touchEvents, float deltaTime) {
 		long timestamp = getTimestamp();
-		if(touchEvents.size() > 0){
-			waitMS -= 1000;
-		}
+//		if(touchEvents.size() > 0){
+//			waitMS -= 1000;
+//		}
 
 		if(timestamp > lastTime + waitMS){
 			game.setScreen(getScoreScreen(transition));

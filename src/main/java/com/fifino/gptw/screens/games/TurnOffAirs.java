@@ -39,7 +39,7 @@ public class TurnOffAirs extends GPTWScreen implements TouchAction {
         }
         setMaxSeconds(timer);
     }
-
+    boolean updateReady = true;
     protected void updateHint(){
         float percent = getPercentTimer();
 //        if(percent > 0.7f){
@@ -50,20 +50,42 @@ public class TurnOffAirs extends GPTWScreen implements TouchAction {
 //            percent = 0.2f;
 //        }
 //        percent = 0.8f;
-        percent -= 0.5f;
-        if(percent <= 0){
-            percent = 0;
-        }
+//        percent -= 0.5f;
+//        if(percent <= 0){
+//            percent = 0;
+//            updateReady = false;
+//        }
         int newAlpha = (int)(255*percent);
+        System.out.println(newAlpha);
 //        paintBG.setARGB(newAlpha, 0, 0, 0);
         this.bgFontAlpha = newAlpha;
     }
 
     @Override
+    protected void updateReady(List<Input.TouchEvent> touchEvents) {
+        super.updateReady(touchEvents);
+
+        this.menuItems.update(0);
+    }
+
+    @Override
+    protected void drawReadyUI(List<Input.TouchEvent> touchEvents, float deltaTime) {
+//        Graphics g = getGraphics();
+//        g.fillRect(0, 0, g.getWidth(), g.getHeight(), getBackgroundColor());
+//
+//        this.menuItems.draw(g);
+//        this.drawBar(g);
+        drawRunningUI(touchEvents, deltaTime);
+        drawReady(); //Overlay hint
+    }
+
+    @Override
     protected void updateRunning(List<Input.TouchEvent> touchEvents, float deltaTime) {
-        updateHint();
         this.updateTime();
         this.menuItems.update(deltaTime);
+//        if(updateReady){
+        updateHint();
+//        }
 
         int len = touchEvents.size();
         Input.TouchEvent event = null;
@@ -87,13 +109,14 @@ public class TurnOffAirs extends GPTWScreen implements TouchAction {
             }
         }
     }
+
     @Override
     public void drawRunningUI(List<Input.TouchEvent> touchEvents, float deltaTime){
         Graphics g = game.getGraphics();
-        this.drawReadyUI(touchEvents, deltaTime);
-
+        g.fillRect(0, 0, g.getWidth(), g.getHeight(), Color.WHITE);
         this.menuItems.draw(g);
         this.drawBar(g);
+        drawReady(); //Overlay hint
     }
     HashMap<String, String> assets;
     @Override

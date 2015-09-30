@@ -145,16 +145,25 @@ public abstract class GPTWScreen extends Screen{
     int hintWaitSeconds = 2000, hintWaitSecondsLow = 1000;
     protected void updateReady(List<TouchEvent> touchEvents) {
         long diff = getTimestamp() - readyTime;
-        if(touchEvents.size() > 0){
-            hintWaitSeconds = 0;
+        boolean force = false;
+        int len = touchEvents.size();
+        if (len > 0) {
+            for (int i = 0; i < len; i++) {
+                if (touchEvents.size() < len) {
+                    // Handles out of bounds exception for the list getting empty
+                    // after getting the size.
+                    return;
+                }
+                TouchEvent event = touchEvents.get(i);
+                if (event.type == TouchEvent.TOUCH_DOWN) {
+                    force = true;
+                }
+            }
         }
-        if(diff > hintWaitSeconds) {
+        if(diff > hintWaitSeconds || force) {
             setGameState(GameState.Running);
             lastTime = getTimestamp();
-        } else if(diff > hintWaitSecondsLow){
-            bgFontAlpha = (int) (255*.9f);
         }
-//        paintBG.setARGB(bgFontAlpha, 0, 0, 0);
     }
     protected void updatePaused(List<TouchEvent> touchEvents, float deltaTime) {
         int len = touchEvents.size();
@@ -213,8 +222,11 @@ public abstract class GPTWScreen extends Screen{
         }
     }
     protected void drawReadyUI(List<TouchEvent> touchEvents, float deltaTime) {
+        drawReady();
+    }
+    protected void drawReady(){
         Graphics g = game.getGraphics();
-        g.fillRect(0, 0, g.getWidth(), g.getHeight(), getBackgroundColor());
+//        g.fillRect(0, 0, g.getWidth(), g.getHeight(), getBackgroundColor());
         GPTWHint[] hints = getHints();
         int hintHeight = 80;
         int hintMargin = 80;

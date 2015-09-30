@@ -136,7 +136,7 @@ public class ScoreScreen extends GPTWScreen {
 				lastTime = timestamp;
 			}
 		}
-		if(done && timestamp > lastTime + 2000 || timestamp > lastTime + 5000 || (done && touchEvents.size() > 0 && timestamp > lastTime + 1000)){
+		if(done && timestamp > lastTime + 2000 || timestamp > lastTime + 5000){
 			this.clean(this.assets);
 			game.setScreen(getCheckLivesScreen());
 //			this.state = GameState.Paused;
