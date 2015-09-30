@@ -38,6 +38,7 @@ public class TurnOffAirs extends GPTWScreen implements TouchAction {
             timer = 3;
         }
         setMaxSeconds(timer);
+        hintWaitSeconds = 1500;
     }
     boolean updateReady = true;
     protected void updateHint(){
@@ -50,13 +51,12 @@ public class TurnOffAirs extends GPTWScreen implements TouchAction {
 //            percent = 0.2f;
 //        }
 //        percent = 0.8f;
-//        percent -= 0.5f;
-//        if(percent <= 0){
-//            percent = 0;
-//            updateReady = false;
-//        }
+        percent -= 0.5f;
+        if(percent <= 0){
+            percent = 0;
+            updateReady = false;
+        }
         int newAlpha = (int)(255*percent);
-        System.out.println(newAlpha);
 //        paintBG.setARGB(newAlpha, 0, 0, 0);
         this.bgFontAlpha = newAlpha;
     }
@@ -64,7 +64,6 @@ public class TurnOffAirs extends GPTWScreen implements TouchAction {
     @Override
     protected void updateReady(List<Input.TouchEvent> touchEvents) {
         super.updateReady(touchEvents);
-
         this.menuItems.update(0);
     }
 
@@ -76,16 +75,18 @@ public class TurnOffAirs extends GPTWScreen implements TouchAction {
 //        this.menuItems.draw(g);
 //        this.drawBar(g);
         drawRunningUI(touchEvents, deltaTime);
-        drawReady(); //Overlay hint
+        if(updateReady){
+            drawReady();
+        }
     }
 
     @Override
     protected void updateRunning(List<Input.TouchEvent> touchEvents, float deltaTime) {
         this.updateTime();
         this.menuItems.update(deltaTime);
-//        if(updateReady){
-        updateHint();
-//        }
+        if(updateReady){
+            updateHint();
+        }
 
         int len = touchEvents.size();
         Input.TouchEvent event = null;
@@ -249,7 +250,9 @@ public class TurnOffAirs extends GPTWScreen implements TouchAction {
         }
     }
 
-    GPTWHint[] hints = new GPTWHint[]{new GPTWHint("TURN", Color.BLACK), new GPTWHint("ON the ALARMS", Color.GREEN), new GPTWHint("OFF the AIRS", Color.RED)};
+
+
+    GPTWHint[] hints = new GPTWHint[]{new GPTWHint("TURN", Color.BLACK), new GPTWHint("OFF the AIRS", Color.argb(255,215,55,0)), new GPTWHint("ON the ALARMS", Color.argb(255, 39,159,49))};
     @Override
     public GPTWHint[] getHints() {
         return hints;

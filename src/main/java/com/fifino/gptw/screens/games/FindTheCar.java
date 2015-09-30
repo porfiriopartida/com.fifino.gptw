@@ -27,7 +27,6 @@ import java.util.Set;
  * Created by porfirioaprtida on 8/18/2015.
  */
 public class FindTheCar extends GPTWScreen implements TouchAction {
-    private AndroidImage bgImage, MenuItem;
     private Random rnd;
     private int totalCars, speed;
     MenuItemComposite carSprites;

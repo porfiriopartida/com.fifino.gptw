@@ -30,7 +30,8 @@ public abstract class GPTWScreen extends Screen{
     protected String name = "noname"; 
     protected boolean isPortrait = true;
     protected Paint paintB, paintW, paintBT, paintBG;
-    protected int level, gamesCounter;
+    protected int level, gamesCounter, readyBg;
+
     public enum GameState {
         Ready, Running, Paused, GameOver
     }
@@ -66,6 +67,7 @@ public abstract class GPTWScreen extends Screen{
         input = (AndroidInput) game.getInput();
         readyTime = getTimestamp();
         postConstruct();
+        readyBg = Color.argb(255, 255, 255, 255);
     }
 
     protected int getGameLevel(int gamesCount){
@@ -142,7 +144,7 @@ public abstract class GPTWScreen extends Screen{
     }
     protected long readyTime = 0;
     protected int bgFontAlpha = 255;
-    int hintWaitSeconds = 2000, hintWaitSecondsLow = 1000;
+    protected int hintWaitSeconds = 1500, hintWaitSecondsLow = 1000;
     protected void updateReady(List<TouchEvent> touchEvents) {
         long diff = getTimestamp() - readyTime;
         boolean force = false;
@@ -226,7 +228,6 @@ public abstract class GPTWScreen extends Screen{
     }
     protected void drawReady(){
         Graphics g = game.getGraphics();
-//        g.fillRect(0, 0, g.getWidth(), g.getHeight(), getBackgroundColor());
         GPTWHint[] hints = getHints();
         int hintHeight = 80;
         int hintMargin = 80;
@@ -235,6 +236,12 @@ public abstract class GPTWScreen extends Screen{
         int y = g.getHeight()/2 - hintHeight*moved - hintMargin*moved;
         Paint bgFont = getBackgroundFont();
         int x =  g.getWidth() / 2;
+        int readyBgAlpha = this.bgFontAlpha - 150;
+        if(readyBgAlpha <= 0){
+            readyBgAlpha = 0;
+        }
+        g.fillRect(0, y - 10, g.getWidth(), (hintHeight + hintMargin) * hints.length, Color.argb(readyBgAlpha, 255, 255, 255));
+
         for(GPTWHint hint : hints ){
             bgFont.setColor(hint.getColor());
             bgFont.setAlpha(this.bgFontAlpha);
