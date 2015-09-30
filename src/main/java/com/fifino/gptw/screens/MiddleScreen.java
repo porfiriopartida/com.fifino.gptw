@@ -45,12 +45,15 @@ public class MiddleScreen extends GPTWScreen {
 		assets.put(GPTWResources.FIND_THE_CAR_LOSE_1, GPTWResources.FIND_THE_CAR_LOSE_1_IMG);
 		assets.put(GPTWResources.FIND_THE_CAR_LOSE_2, GPTWResources.FIND_THE_CAR_LOSE_2_IMG);
 
+		assets.put(GPTWResources.WAKE_UP_WIN, GPTWResources.WAKE_UP_WIN_IMG);
+		assets.put(GPTWResources.WAKE_UP_LOSE, GPTWResources.WAKE_UP_LOSE_IMG);
+
+		assets.put(GPTWResources.SPAMRANHAS_WIN, GPTWResources.SPAMRANHAS_WIN_IMG);
+		assets.put(GPTWResources.SPAMRANHAS_LOSE, GPTWResources.SPAMRANHAS_LOSE_IMG);
 
 		String key = this.bgName;
-		//if(Assets.getImage(key) == null){
-			Image bgImage =  g.newImage(assets.get(key), Graphics.ImageFormat.RGB565);
-			Assets.addImage(key, bgImage);
-		//}
+		Image bgImage =  g.newImage(assets.get(key), Graphics.ImageFormat.RGB565);
+		Assets.addImage(key, bgImage);
 	}
 	@Override
 	protected void setupEntities() {

@@ -55,7 +55,6 @@ public class TurnOffAlarms extends TurnOffAirs {
     }
 
     GPTWHint[] hints = new GPTWHint[]{new GPTWHint("TURN", Color.BLACK), new GPTWHint("ON the AIRS", Color.argb(255, 39,159,49)), new GPTWHint("OFF the ALARMS", Color.argb(255,215,55,0))};
-    @Override
     public GPTWHint[] getHints() {
         return hints;
     }

@@ -10,7 +10,7 @@ public final class GPTWGamesPool {
 //            com.fifino.gptw.screens.games.TurnOffAlarms.class,
 //            com.fifino.gptw.screens.games.FindTheCar.class,
 
-//            com.fifino.gptw.screens.games.WakeUp.class,
+            com.fifino.gptw.screens.games.WakeUp.class,
             com.fifino.gptw.screens.games.Spamranhas.class,
     };
 }

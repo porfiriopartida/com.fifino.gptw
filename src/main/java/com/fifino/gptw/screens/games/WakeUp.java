@@ -24,12 +24,19 @@ import java.util.Random;
 /**
  * Created by porfirioaprtida on 8/18/2015.
  */
-public class WakeUp extends GPTWScreen implements TouchAction {
+public class WakeUp extends GPTWScreen {
     MenuItemComposite carSprites;
+    int hits = 5;
     public WakeUp(Game game, Integer level) {
         super(game, level);
-        this.state = GameState.Running;
-//        setMaxSeconds(timer);
+        this.state = GameState.Running; // avoids hint rendering.
+        int curLvl = getGameLevel(level);
+        int timer = 6 - curLvl;
+        if(timer < 3){
+            timer = 3;
+        }
+        hits = curLvl * 5 + 1;
+        setMaxSeconds(timer);
 //        hintWaitSeconds = 1500;
     }
 
@@ -37,22 +44,25 @@ public class WakeUp extends GPTWScreen implements TouchAction {
     @Override
     protected void initializeAssets() {
         assets = new HashMap<String, String>();
-//        assets.put(GPTWResources.FIND_THE_CAR_BG, GPTWResources.FIND_THE_CAR_IMG_BG);
+        assets.put(GPTWResources.WAKE_UP_BG, GPTWResources.WAKE_UP_IMG_BG);
         this.initializeAssets(assets);
     }
     private void setupBackground(){
-//        this.bgImage = Assets.getAndroidImage(GPTWResources.FIND_THE_CAR_BG);
-//        MenuItem bgItem = new MenuItem(this.bgImage, 0, 0);
-//        bgItem.setCollidable(false);
-//        this.menuItems.add(bgItem); //bg should be first
+        this.bgImage = Assets.getAndroidImage(GPTWResources.WAKE_UP_BG);
+        MenuItem bgItem = new MenuItem(this.bgImage, 0, 0);
+        bgItem.setCollidable(false);
+        this.menuItems.add(bgItem); //bg should be first
     }
     @Override
     protected void setupEntities() {
         try {
             //Entities setup
+
+            //We only have a bg here this counts hits for now.
             setupBackground();
-            //Initial state
-            this.state = GameState.Running;
+
+//            //Initial state
+//            this.state = GameState.Running;
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(0);
@@ -90,6 +100,10 @@ public class WakeUp extends GPTWScreen implements TouchAction {
                 Point point = new Point(event.x, event.y);
                 if (event.type == Input.TouchEvent.TOUCH_DOWN) {
                     //do something on touch down...
+                    hits--;
+                    if(hits<=0){
+                        win();
+                    }
                 }
             }
         }
@@ -101,34 +115,25 @@ public class WakeUp extends GPTWScreen implements TouchAction {
         //this.drawBar(g);
     }
 
-    public void triggerTouch(String eventName, Object context) {
-        this.triggerTouch(context);
-    }
-
-    @Override
-    public void triggerTouch(Object context) {
-        CarSprite sprite = (CarSprite)context;
-        if("winner".equalsIgnoreCase(sprite.getName())){
-            win();
-        } else {
-            lose(false);
-        }
-    }
     public void win(){
         this.clean(assets);
         int score = getScore();
-        String res = GPTWResources.FIND_THE_CAR_WIN;
+        String res = GPTWResources.WAKE_UP_WIN;
         GPTWTransition transition = new GPTWTransition(score, score + 100, true, 0);
         buildMiddleScreen(res, transition);
     }
-    public void lose(boolean timeout){
+    public void lose(){
         this.clean(assets);
         int score = getScore();
-        GPTWTransition transition = new GPTWTransition(score, score + ( timeout ? -10:-25), false, 0);
-        String res = timeout ? GPTWResources.FIND_THE_CAR_LOSE_2: GPTWResources.FIND_THE_CAR_LOSE_1;
+        GPTWTransition transition = new GPTWTransition(score, score - 20, false, 0);
+        String res = GPTWResources.WAKE_UP_LOSE;
         buildMiddleScreen(res, transition);
     }
     public void buildMiddleScreen(String res, GPTWTransition transition){
         this.game.setScreen(new MiddleScreen(this.game, res, transition));
+    }
+    @Override
+    protected void triggerTimeIsZero() {
+        lose();
     }
 }

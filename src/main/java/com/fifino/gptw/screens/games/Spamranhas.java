@@ -2,6 +2,8 @@ package com.fifino.gptw.screens.games;
 
 import android.graphics.Point;
 
+import com.fifino.framework.assets.Assets;
+import com.fifino.framework.entities.MenuItem;
 import com.fifino.framework.entities.MenuItemComposite;
 import com.fifino.framework.events.TouchAction;
 import com.fifino.gptw.helpers.GPTWResources;
@@ -20,11 +22,18 @@ import java.util.List;
  * Created by porfirioaprtida on 8/18/2015.
  */
 public class Spamranhas extends GPTWScreen implements TouchAction {
-    MenuItemComposite carSprites;
+    int spamranhasCounter = 5;
     public Spamranhas(Game game, Integer level) {
         super(game, level);
         this.state = GameState.Running;
-//        setMaxSeconds(timer);
+        int curLvl = getGameLevel(level);
+        int timer = 6 - curLvl;
+        if(timer < 3){
+            timer = 3;
+        }
+        //lv 1 = 2, lv 2 = 4, lv 3 = 6
+        spamranhasCounter = (int)(1 + getGameLevel(level) * 1.7f);
+        setMaxSeconds(timer);
 //        hintWaitSeconds = 1500;
     }
 
@@ -32,20 +41,28 @@ public class Spamranhas extends GPTWScreen implements TouchAction {
     @Override
     protected void initializeAssets() {
         assets = new HashMap<String, String>();
-//        assets.put(GPTWResources.FIND_THE_CAR_BG, GPTWResources.FIND_THE_CAR_IMG_BG);
+        assets.put(GPTWResources.SPAMRANHAS_BG, GPTWResources.SPAMRANHAS_IMG_BG);
+        assets.put(GPTWResources.SPAMRANHAS_INBOX, GPTWResources.SPAMRANHAS_INBOX_IMG);
+        assets.put(GPTWResources.SPAMRANHAS_SPAM, GPTWResources.SPAMRANHAS_SPAM_IMG);
         this.initializeAssets(assets);
     }
     private void setupBackground(){
-//        this.bgImage = Assets.getAndroidImage(GPTWResources.FIND_THE_CAR_BG);
-//        MenuItem bgItem = new MenuItem(this.bgImage, 0, 0);
-//        bgItem.setCollidable(false);
-//        this.menuItems.add(bgItem); //bg should be first
+        this.bgImage = Assets.getAndroidImage(GPTWResources.SPAMRANHAS_BG);
+        MenuItem bgItem = new MenuItem(this.bgImage, 0, 0);
+        bgItem.setCollidable(false);
+        this.menuItems.add(bgItem); //bg should be first
+    }
+    private void setupInbox(){
+    }
+    private void setupSpamEmails(){
     }
     @Override
     protected void setupEntities() {
         try {
             //Entities setup
             setupBackground();
+            setupInbox();
+            setupSpamEmails();
             //Initial state
             this.state = GameState.Running;
         } catch (Exception e) {
@@ -85,6 +102,10 @@ public class Spamranhas extends GPTWScreen implements TouchAction {
                 Point point = new Point(event.x, event.y);
                 if (event.type == Input.TouchEvent.TOUCH_DOWN) {
                     //do something on touch down...
+                    spamranhasCounter--;
+                    if(spamranhasCounter <= 0){
+                        win();
+                    }
                 }
             }
         }
@@ -102,25 +123,26 @@ public class Spamranhas extends GPTWScreen implements TouchAction {
 
     @Override
     public void triggerTouch(Object context) {
-        CarSprite sprite = (CarSprite)context;
-        if("winner".equalsIgnoreCase(sprite.getName())){
-            win();
-        } else {
-            lose(false);
-        }
+        //TODO: Handle click to piranhas
     }
     public void win(){
         this.clean(assets);
         int score = getScore();
-        String res = GPTWResources.FIND_THE_CAR_WIN;
-        GPTWTransition transition = new GPTWTransition(score, score + 100, true, 0);
+        String res = GPTWResources.SPAMRANHAS_WIN;
+        GPTWTransition transition = new GPTWTransition(score, score + 110, true, 0);
         buildMiddleScreen(res, transition);
     }
-    public void lose(boolean timeout){
+
+    @Override
+    protected void triggerTimeIsZero() {
+        lose();
+    }
+
+    public void lose(){
         this.clean(assets);
         int score = getScore();
-        GPTWTransition transition = new GPTWTransition(score, score + ( timeout ? -10:-25), false, 0);
-        String res = timeout ? GPTWResources.FIND_THE_CAR_LOSE_2: GPTWResources.FIND_THE_CAR_LOSE_1;
+        GPTWTransition transition = new GPTWTransition(score, score - 15, false, 0);
+        String res = GPTWResources.SPAMRANHAS_LOSE;
         buildMiddleScreen(res, transition);
     }
     public void buildMiddleScreen(String res, GPTWTransition transition){

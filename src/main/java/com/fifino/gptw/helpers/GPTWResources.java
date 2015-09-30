@@ -65,4 +65,33 @@ public final class GPTWResources {
 
     /* TURN ON THE AIRS */
     /* End turn on the AIRS */
+
+
+    /* Spamranhas */
+    public static final String SPAMRANHAS_BG = "SPAMRANHAS_BG";
+    public static final String SPAMRANHAS_WIN = "SPAMRANHAS_WIN";
+    public static final String SPAMRANHAS_LOSE = "SPAMRANHAS_LOSE_IMG";
+
+    public static final String SPAMRANHAS_INBOX = "SPAMRANHAS_INBOX";
+    public static final String SPAMRANHAS_SPAM = "SPAMRANHAS_SPAM";
+
+
+    public static final String SPAMRANHAS_IMG_BG = Assets.IMAGES_PATH + "/screens/games/spamranhas/bg.png";
+    public static final String SPAMRANHAS_WIN_IMG = Assets.IMAGES_PATH + "/screens/games/spamranhas/end/win.png";
+    public static final String SPAMRANHAS_LOSE_IMG = Assets.IMAGES_PATH + "/screens/games/spamranhas/end/lose.png";
+
+    public static final String SPAMRANHAS_INBOX_IMG = Assets.IMAGES_PATH + "/screens/games/spamranhas/sprites/inbox.png";
+    public static final String SPAMRANHAS_SPAM_IMG = Assets.IMAGES_PATH + "/screens/games/spamranhas/sprites/spam.png";
+
+
+    /* End Spamranhas */
+
+    /* Wake up */
+    public static final String WAKE_UP_BG = "WAKE_UP_BG";
+    public static final String WAKE_UP_WIN = "WAKE_UP_WIN";
+    public static final String WAKE_UP_LOSE = "WAKE_UP_LOSE";
+    public static final String WAKE_UP_IMG_BG = Assets.IMAGES_PATH + "/screens/games/wakeup/bg.png";
+    public static final String WAKE_UP_WIN_IMG = Assets.IMAGES_PATH + "/screens/games/wakeup/end/win.png";
+    public static final String WAKE_UP_LOSE_IMG = Assets.IMAGES_PATH + "/screens/games/wakeup/end/lose.png";
+    /* End Wake up */
 }

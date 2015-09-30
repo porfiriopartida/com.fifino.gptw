@@ -112,12 +112,7 @@ public abstract class GPTWScreen extends Screen{
     }
 
     protected void triggerTimeIsZero(){
-        try {
-            Thread.sleep(1);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        this.game.setScreen(getNextScreen());
+        throw new UnsupportedOperationException("Not implemented");
     }
     protected void checkScreenState(){
         if(this.currentSeconds <= 0){
