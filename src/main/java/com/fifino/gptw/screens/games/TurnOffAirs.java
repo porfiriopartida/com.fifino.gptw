@@ -1,6 +1,7 @@
 package com.fifino.gptw.screens.games;
 
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Point;
 
 import com.fifino.framework.assets.Assets;
@@ -157,6 +158,7 @@ public class TurnOffAirs extends GPTWScreen implements TouchAction {
                     this.menuItems.add(sprite);
                 }
             }
+
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(0);

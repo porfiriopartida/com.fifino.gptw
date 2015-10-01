@@ -71,13 +71,19 @@ public abstract class GPTWScreen extends Screen{
     }
 
     protected int getGameLevel(int gamesCount){
-        int maxLevel = 5;
-        if(gamesCount <= 3){
+        int maxLevel = 8;
+        if(gamesCount <= 2){
             return 1;
         } else if(gamesCount <= 5){
             return 2;
-        } else if(gamesCount <= 10){
+        } else if(gamesCount <= 7){
             return 3;
+        } else if(gamesCount <= 10){
+            return 4;
+        } else if(gamesCount <= 12){
+            return 5;
+        } else if(gamesCount <= 15){
+            return 6;
         } else {
             return maxLevel;
         }
@@ -328,12 +334,13 @@ public abstract class GPTWScreen extends Screen{
     }
 	@Override
 	public void backButton() {
-        if(this.state == GameState.Running){
-            setGameState(GameState.Paused);
-        } else if(this.state == GameState.Paused){
-            setGameState(GameState.Running);
-        } else {
-            System.exit(0);
-        }
+        System.exit(0);
+//        if(this.state == GameState.Running){
+//            setGameState(GameState.Paused);
+//        } else if(this.state == GameState.Paused){
+//            setGameState(GameState.Running);
+//        } else {
+//            System.exit(0);
+//        }
 	}
 }

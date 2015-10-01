@@ -1,5 +1,7 @@
 package com.fifino.gptw.screens.games;
 
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Point;
 
 import com.fifino.framework.assets.Assets;
@@ -26,16 +28,17 @@ import java.util.Random;
  */
 public class WakeUp extends GPTWScreen {
     MenuItemComposite carSprites;
-    int hits = 5;
+    int hits, hitsCounter = 0;
+    Paint hpBarBg, hpBarColor;
     public WakeUp(Game game, Integer level) {
         super(game, level);
         this.state = GameState.Running; // avoids hint rendering.
         int curLvl = getGameLevel(level);
-        int timer = 5 - curLvl;
-        if(timer < 2){
-            timer = 2;
+        int timer = 7 - curLvl;
+        if(timer < 3){
+            timer = 3;
         }
-        hits = curLvl * 6 + 2;
+        hits = curLvl * 6 + 1;
         setMaxSeconds(timer);
 //        hintWaitSeconds = 1500;
     }
@@ -53,6 +56,12 @@ public class WakeUp extends GPTWScreen {
         bgItem.setCollidable(false);
         this.menuItems.add(bgItem); //bg should be first
     }
+    private void setupHpBar(){
+        hpBarBg = getPaint();
+        hpBarBg.setColor(Color.BLACK);
+        hpBarColor = getPaint();
+        hpBarColor.setColor(Color.YELLOW);
+    }
     @Override
     protected void setupEntities() {
         try {
@@ -60,6 +69,7 @@ public class WakeUp extends GPTWScreen {
 
             //We only have a bg here this counts hits for now.
             setupBackground();
+            setupHpBar();
 
 //            //Initial state
 //            this.state = GameState.Running;
@@ -100,8 +110,8 @@ public class WakeUp extends GPTWScreen {
                 Point point = new Point(event.x, event.y);
                 if (event.type == Input.TouchEvent.TOUCH_DOWN) {
                     //do something on touch down...
-                    hits--;
-                    if(hits<=0){
+                    hitsCounter++;
+                    if(hitsCounter >= hits){
                         win();
                     }
                 }
@@ -113,6 +123,20 @@ public class WakeUp extends GPTWScreen {
         Graphics g = game.getGraphics();
         this.menuItems.draw(g);
         this.drawBar(g);
+        this.drawHPBar(g);
+    }
+    protected void drawHPBar(Graphics g){
+        float rate = (float)(hits-hitsCounter) / hits;
+        int border = 2,
+            x = border,
+            y = 80,
+            w = (int)((g.getWidth() - border * 2) * rate),
+            h = 50;
+
+//        System.out.println("rate: " + rate + " -- w: " + w);
+
+        g.drawRect(x, y - border, g.getWidth(), h, hpBarBg);
+        g.drawRect(x + border, y, w, h - border, hpBarColor);
     }
 
     public void win(){
