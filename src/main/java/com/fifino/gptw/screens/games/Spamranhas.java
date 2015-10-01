@@ -77,8 +77,12 @@ public class Spamranhas extends GPTWScreen implements TouchAction {
         int lv = level;
         spamranhasCounter = (int)(1 + lv * 1.8f);
         asyncCounter = 0;
-        if(lv >= 3){
-            asyncCounter = lv - 2;
+        if(lv >= 7){
+            asyncCounter = 3;
+        } else if(lv >= 5){
+            asyncCounter = 2;
+        } else if(lv >= 3){
+            asyncCounter = 1;
         }
 //        spamranhasCounter = 10;
         String name = "spamranha";

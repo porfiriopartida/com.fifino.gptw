@@ -156,18 +156,6 @@ public class SpamSprite extends Sprite {
         //Check if left/top OR right/bottom
         boolean before = rnd.nextBoolean();
 
-//        isHor = true;
-//        before = true;
-
-//        isHor = false;
-//        before = true;
-
-        isHor = true;
-        before = false;
-//
-//        isHor = false;
-//        before = false;
-
         //Helpers using the dimensions of the spam email sprite
         int w = spriteImage.getWidth(),
             h = spriteImage.getHeight();
