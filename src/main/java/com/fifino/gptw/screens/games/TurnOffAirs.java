@@ -125,7 +125,7 @@ public class TurnOffAirs extends GPTWScreen implements TouchAction {
     protected void initializeAssets() {
         assets = new HashMap<String, String>();
         String imagesPath = Assets.IMAGES_PATH;
-        assets.put("game_1_bg", imagesPath + "/screens/games/airs.png");
+        assets.put("game_1_bg", imagesPath + "/screens/games/airs/bg.png");
         assets.put("game_2_bg", imagesPath + "/screens/games/alarms.png");
         assets.put("sprite_1_1", imagesPath + "/sprites/air.png");
         assets.put("sprite_1_2", imagesPath + "/sprites/alarm.png");

@@ -74,15 +74,15 @@ public abstract class GPTWScreen extends Screen{
         int maxLevel = 8;
         if(gamesCount <= 2){
             return 1;
-        } else if(gamesCount <= 5){
+        } else if(gamesCount <= 4){
             return 2;
-        } else if(gamesCount <= 7){
+        } else if(gamesCount <= 6){
             return 3;
-        } else if(gamesCount <= 10){
+        } else if(gamesCount <= 8){
             return 4;
-        } else if(gamesCount <= 12){
+        } else if(gamesCount <= 10){
             return 5;
-        } else if(gamesCount <= 15){
+        } else if(gamesCount <= 12){
             return 6;
         } else {
             return maxLevel;
@@ -298,7 +298,7 @@ public abstract class GPTWScreen extends Screen{
         this.currentSeconds = maxSeconds;
         lastTime = getTimestamp();
     }
-    protected long getTimestamp(){
+    public long getTimestamp(){
         return Calendar.getInstance().getTimeInMillis();
     }
     protected long lastTime;
@@ -317,6 +317,10 @@ public abstract class GPTWScreen extends Screen{
         }
         long diff = getDiff();
         if(diff > 100) {
+            if(diff > 200){
+                //Adding a lock of 100 ms in case of pause
+                diff = 200;
+            }
             //Update every second.
             this.currentSeconds -= (diff/100);
             lastTime = getTimestamp();

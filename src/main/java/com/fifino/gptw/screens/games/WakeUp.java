@@ -27,7 +27,6 @@ import java.util.Random;
  * Created by porfirioaprtida on 8/18/2015.
  */
 public class WakeUp extends GPTWScreen {
-    MenuItemComposite carSprites;
     int hits, hitsCounter = 0;
     Paint hpBarBg, hpBarColor;
     public WakeUp(Game game, Integer level) {
