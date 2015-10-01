@@ -157,7 +157,7 @@ public class FindTheCar extends GPTWScreen implements TouchAction {
             int maxCars = 5,
                 maxSpeed = 15;
             totalCars = 2 + this.level;
-            speed = this.level * 2 + 6 ;
+            speed = this.level * 2 + 7 ;
             if(speed > maxSpeed){
                 speed = maxSpeed;
             }

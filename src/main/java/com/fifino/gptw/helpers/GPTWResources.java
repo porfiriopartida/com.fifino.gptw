@@ -57,9 +57,9 @@ public final class GPTWResources {
             Assets.IMAGES_PATH + "/screens/games/cars/car-3.png"
     };
     //Win-Lose images.
-    public static final String FIND_THE_CAR_WIN_IMG = Assets.IMAGES_PATH + "/screens/games/cars-0.png";
-    public static final String FIND_THE_CAR_LOSE_1_IMG = Assets.IMAGES_PATH + "/screens/games/cars-1.png";
-    public static final String FIND_THE_CAR_LOSE_2_IMG = Assets.IMAGES_PATH + "/screens/games/cars-2.png";
+    public static final String FIND_THE_CAR_WIN_IMG = Assets.IMAGES_PATH + "/screens/games/cars/end/win.png";
+    public static final String FIND_THE_CAR_LOSE_1_IMG = Assets.IMAGES_PATH + "/screens/games/cars/end/lose-1.png";
+    public static final String FIND_THE_CAR_LOSE_2_IMG = Assets.IMAGES_PATH + "/screens/games/cars/end/lose-2.png";
     // End Images
     /* End Find the Car*/
 
