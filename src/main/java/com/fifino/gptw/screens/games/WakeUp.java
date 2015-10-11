@@ -33,11 +33,11 @@ public class WakeUp extends GPTWScreen {
         super(game, level);
         this.state = GameState.Running; // avoids hint rendering.
         int curLvl = getGameLevel(level);
-        int timer = 9 - curLvl;
+        int timer = 10 - curLvl;
         if(timer < 3){
             timer = 3;
         }
-        hits = curLvl * 4;
+        hits = curLvl * 3 + 1;
         setMaxSeconds(timer);
 //        hintWaitSeconds = 1500;
     }

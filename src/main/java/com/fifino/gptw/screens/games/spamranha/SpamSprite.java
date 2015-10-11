@@ -1,10 +1,13 @@
 package com.fifino.gptw.screens.games.spamranha;
 
+import com.fifino.framework.entities.Bound;
+import com.fifino.framework.entities.Rectangle;
 import com.fifino.framework.entities.Sprite;
 import com.fifino.gptw.screens.GPTWScreen;
 import com.fifino.gptw.screens.games.Spamranhas;
 import com.kilobolt.framework.implementation.AndroidImage;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -25,6 +28,20 @@ public class SpamSprite extends Sprite {
         auxSpeed = 20;
         spriteImage = asset;
         rnd = new Random();
+    }
+    protected void generateBound(){
+        int width = image.getWidth();
+        int height = image.getHeight();
+        Bound b = new Bound();
+        b.setEntity(this);
+        Rectangle rectangle = new Rectangle(b);
+        int margin = 10;
+//        rectangle.setHeight(height).setWidth(width);
+        rectangle.setX(-margin).setY(-margin).setHeight(height+margin*2).setWidth(width+margin*2);
+        ArrayList<Rectangle> rectangles = new ArrayList<Rectangle>();
+        rectangles.add(rectangle);
+        b.setRectangles(rectangles);
+        setBound(b);
     }
     public void setGame(Spamranhas game){
         this.game = game;
