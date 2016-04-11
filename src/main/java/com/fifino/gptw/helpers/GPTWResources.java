@@ -12,6 +12,8 @@ public final class GPTWResources {
     public static final String GPTW_MAIN_BG_IMG = Assets.IMAGES_PATH + "/screens/main/bg.png";
     public static final String GPTW_MAIN_START = "GPTW_MAIN_START";
     public static final String GPTW_MAIN_START_IMG = Assets.IMAGES_PATH + "/screens/main/start.png";
+    public static final String GPTW_MAIN_RECORDS = "GPTW_MAIN_RECORDS";
+    public static final String GPTW_MAIN_RECORDS_IMG = Assets.IMAGES_PATH + "/screens/main/records.png";
 
 
     /* End resources */

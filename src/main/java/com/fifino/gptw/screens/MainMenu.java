@@ -3,6 +3,7 @@ package com.fifino.gptw.screens;
 import java.util.HashMap;
 import java.util.List;
 
+import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.graphics.Point;
 
@@ -14,6 +15,7 @@ import com.fifino.gptw.helpers.GPTWResources;
 import com.kilobolt.framework.Game;
 import com.kilobolt.framework.Graphics;
 import com.kilobolt.framework.Input.TouchEvent;
+import com.kilobolt.framework.implementation.AndroidAudio;
 
 public class MainMenu extends GPTWScreen implements TouchAction {
 
@@ -24,24 +26,34 @@ public class MainMenu extends GPTWScreen implements TouchAction {
 	@Override
 	protected void initializeAssets() {
 		HashMap<String, String> assets = new HashMap<String, String>();
-		assets.put(GPTWResources.GPTW_MAIN_BG, GPTWResources.GPTW_MAIN_BG_IMG);
-		assets.put(GPTWResources.GPTW_MAIN_START, GPTWResources.GPTW_MAIN_START_IMG);
+        assets.put(GPTWResources.GPTW_MAIN_BG, GPTWResources.GPTW_MAIN_BG_IMG);
+        assets.put(GPTWResources.GPTW_MAIN_START, GPTWResources.GPTW_MAIN_START_IMG);
+        assets.put(GPTWResources.GPTW_MAIN_RECORDS, GPTWResources.GPTW_MAIN_RECORDS_IMG);
 		this.initializeAssets(assets);
 	}
-	MenuItem startButton;
+	MenuItem recordsButton, startButton;
 	@Override
 	protected void setupEntities() {
 		Graphics g = game.getGraphics();
 		bgImage = Assets.getAndroidImage(GPTWResources.GPTW_MAIN_BG);
-		startButton = new MenuItem(Assets.getAndroidImage(GPTWResources.GPTW_MAIN_START), 10, 10 );
-		startButton.setY(g.getHeight() - startButton.getHeight());
-		startButton.setX(g.getWidth() / 2 - startButton.getWidth() / 2);
+        startButton = new MenuItem(Assets.getAndroidImage(GPTWResources.GPTW_MAIN_START), 10, 10 );
+        recordsButton = new MenuItem(Assets.getAndroidImage(GPTWResources.GPTW_MAIN_RECORDS), 10, 10 );
+        int h = g.getHeight() - startButton.getHeight();
+		startButton.setY(h);
+//        startButton.setX(g.getWidth() / 2 - startButton.getWidth() / 2);
+        startButton.setX(0);
 		startButton.setName("start");
 		startButton.addTouchListener(this);
+
+        recordsButton.setX(startButton.getWidth() + 5);
+        recordsButton.setName("records");
+        recordsButton.addTouchListener(this);
+
 		MenuItem bg = new MenuItem(bgImage, 0, 0);
 		bg.setCollidable(false);
 		this.menuItems.add(bg);
-		this.menuItems.add(startButton);
+        this.menuItems.add(startButton);
+        this.menuItems.add(recordsButton);
 		this.state = GameState.Running;
 	}
 
@@ -121,10 +133,16 @@ public class MainMenu extends GPTWScreen implements TouchAction {
 	@Override
 	public void triggerTouch(Object context) {
 		MenuItem item = (MenuItem)context;
-		if("start".equals(item.getName())){
-			GPTWGame game = (GPTWGame) this.game;
+        GPTWGame game = (GPTWGame) this.game;
+        String name = item.getName();
+		if("start".equals(item)){
 			game.reset();
 			game.setScreen(getNextScreen());
-		}
+		} else if("records".equals(item)) {
+            System.exit(0);
+            //game.reset();
+            //TODO: switch to records screen.
+            //game.setScreen(getNextScreen());
+        }
 	}
 }

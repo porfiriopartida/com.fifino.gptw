@@ -32,7 +32,7 @@ public abstract class GPTWScreen extends Screen{
     protected String name = "noname"; 
     protected boolean isPortrait = true;
     protected Paint paintB, paintW, paintBT, paintBG;
-    protected int level, gamesCounter, readyBg;
+    protected int difficulty, level, readyBg;
 
     public enum GameState {
         Ready, Running, Paused, GameOver
@@ -50,11 +50,11 @@ public abstract class GPTWScreen extends Screen{
     public GPTWScreen(Game game){
         this(game, -1);
     }
-    public GPTWScreen(Game game, Integer gamesCounter) {
+    public GPTWScreen(Game game, Integer level) {
         super(game);
-        this.gamesCounter = gamesCounter;
-        this.level = getGameLevel(gamesCounter);
-        menuItems = new MenuItemComposite(0, 0); 
+        this.level = level;
+        this.difficulty = getGameDifficulty(level);
+        menuItems = new MenuItemComposite(0, 0);
         //bgImage =  (AndroidImage)Assets.getImage(Assets.IMAGES_PATH + "/main/gray-bg.png");
         paintB = getPaint();
         paintW = getPaint();
@@ -72,19 +72,23 @@ public abstract class GPTWScreen extends Screen{
         readyBg = Color.argb(255, 255, 255, 255);
     }
 
-    protected int getGameLevel(int gamesCount){
-        int maxLevel = 8;
-        if(gamesCount <= 2){
+    boolean debug = true;
+    public int getGameDifficulty(int level){
+        if(debug){
             return 1;
-        } else if(gamesCount <= 4){
+        }
+        int maxLevel = 8;
+        if(level <= 2){
+            return 1;
+        } else if(level <= 4){
             return 2;
-        } else if(gamesCount <= 6){
+        } else if(level <= 6){
             return 3;
-        } else if(gamesCount <= 8){
+        } else if(level <= 8){
             return 4;
-        } else if(gamesCount <= 10){
+        } else if(level <= 10){
             return 5;
-        } else if(gamesCount <= 12){
+        } else if(level <= 12){
             return 6;
         } else {
             return maxLevel;
@@ -332,7 +336,7 @@ public abstract class GPTWScreen extends Screen{
     protected Screen getNextScreen(){
         GPTWGame gptwGame = (GPTWGame) game;
         gptwGame.levelUp();
-        int level = gptwGame.getLevel();
+        //int level = gptwGame.getLevel();
         GameFactory factory = RandomGPTWGameFactory.getInstance(gptwGame);
         return factory.getNextScreen();
     }

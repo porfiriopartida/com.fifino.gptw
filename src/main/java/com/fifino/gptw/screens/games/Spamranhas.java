@@ -74,7 +74,7 @@ public class Spamranhas extends GPTWScreen implements TouchAction {
         //TODO: Add piranhas here, use the counter generated in the constructor, random position
         //TODO: Create the piranha sprite to update giving the center and move there
         spamImg =  Assets.getAndroidImage(GPTWResources.SPAMRANHAS_SPAM);
-        int lv = level;
+        int lv = this.difficulty;
         spamranhasCounter = (int)(1 + lv * 1.8f);
         asyncCounter = 0;
         if(lv >= 7){

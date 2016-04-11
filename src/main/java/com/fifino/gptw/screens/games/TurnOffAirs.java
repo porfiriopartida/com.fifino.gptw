@@ -33,8 +33,8 @@ public class TurnOffAirs extends GPTWScreen implements TouchAction {
     protected ArrayList<Sprite> activeElements;
     int lastChanged = -1;
     public TurnOffAirs(Game game, Integer level) {
-        super(game);
-        int timer = 6 - getGameLevel(level);
+        super(game, level);
+        int timer = 6 - this.difficulty;
         if(timer < 3){
             timer = 3;
         }
