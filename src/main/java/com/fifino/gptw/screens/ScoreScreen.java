@@ -26,6 +26,7 @@ public class ScoreScreen extends GPTWScreen {
 	int fontSize = 165;
 	Paint paintScore;
 	int maxLives = 3;
+	GPTWGame gptwGame;
 	public ScoreScreen(Game game, GPTWTransition transition) {
 		super(game);
 		this.transition = transition;
@@ -39,7 +40,7 @@ public class ScoreScreen extends GPTWScreen {
 //		paintScore.setTextAlign(Paint.Align.CENTER);
 		paintScore.setTextSize(fontSize);
 		paintScore.setARGB(255, 241, 89, 34);
-		GPTWGame gptwGame = (GPTWGame) this.game;
+		gptwGame = (GPTWGame) this.game;
 		gptwGame.setScore(max);
 		if(!isWin){
 			gptwGame.loseLive();
@@ -120,6 +121,7 @@ public class ScoreScreen extends GPTWScreen {
 		//drawString(String text, int x, int y, Paint paint)
 		g.fillRect(0, y - fontSize, g.getWidth(), fontSize + 100, Color.WHITE);
 		g.drawString(scoreText, x, y, paintScore);
+		//TODO: Add share score DRAW here
 	}
 	private String getScoreText(){
 		return ""+current;
@@ -137,8 +139,11 @@ public class ScoreScreen extends GPTWScreen {
 			}
 		}
 		if(done && timestamp > lastTime + 2000 || timestamp > lastTime + 5000){
-			this.clean(this.assets);
-			game.setScreen(getCheckLivesScreen());
+			if(touchEvents.size() > 0 || gptwGame.getLives() > 0){
+				//TODO: Add share score logic here
+				this.clean(this.assets);
+				game.setScreen(getCheckLivesScreen());
+			}
 //			this.state = GameState.Paused;
 		}
 	}
