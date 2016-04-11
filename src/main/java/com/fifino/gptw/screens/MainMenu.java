@@ -136,10 +136,10 @@ public class MainMenu extends GPTWScreen implements TouchAction {
 		MenuItem item = (MenuItem)context;
         GPTWGame game = (GPTWGame) this.game;
         String name = item.getName();
-		if("start".equals(item)){
+		if("start".equals(name)){
 			game.reset();
 			game.setScreen(getNextScreen());
-		} else if("records".equals(item)) {
+		} else if("records".equals(name)) {
             System.exit(0);
             //game.reset();
             //TODO: switch to records screen.
