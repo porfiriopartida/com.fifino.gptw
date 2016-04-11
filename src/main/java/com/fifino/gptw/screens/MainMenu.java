@@ -45,6 +45,7 @@ public class MainMenu extends GPTWScreen implements TouchAction {
 		startButton.setName("start");
 		startButton.addTouchListener(this);
 
+        recordsButton.setY(h);
         recordsButton.setX(startButton.getWidth() + 5);
         recordsButton.setName("records");
         recordsButton.addTouchListener(this);
