@@ -15,4 +15,10 @@ public final class GPTWGamesPool {
             com.fifino.gptw.screens.games.WakeUp.class,
             com.fifino.gptw.screens.games.Spamranhas.class,
     };
+    public static final int
+            TURN_OFF_AIRS = 0,
+            TURN_OFF_ALARMS = 1,
+            FIND_THE_CAR = 2,
+            WAKE_UP = 3,
+            SPAMRANHAS = 4;
 }

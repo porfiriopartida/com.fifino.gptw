@@ -9,9 +9,11 @@ import android.graphics.Paint;
 
 import com.fifino.framework.assets.Assets;
 import com.fifino.framework.entities.MenuItemComposite;
+import com.fifino.framework.helpers.GameFactory;
 import com.fifino.gptw.GPTWGame;
 import com.fifino.gptw.helpers.GPTWHint;
 import com.fifino.gptw.helpers.GPTWTransition;
+import com.fifino.gptw.helpers.RandomGPTWGameFactory;
 import com.kilobolt.framework.Game;
 import com.kilobolt.framework.Graphics;
 import com.kilobolt.framework.Image;
@@ -328,7 +330,11 @@ public abstract class GPTWScreen extends Screen{
         checkScreenState();
     }
     protected Screen getNextScreen(){
-        return ((GPTWGame)game).getNextScreen();
+        GPTWGame gptwGame = (GPTWGame) game;
+        gptwGame.levelUp();
+        int level = gptwGame.getLevel();
+        GameFactory factory = RandomGPTWGameFactory.getInstance(gptwGame);
+        return factory.getNextScreen();
     }
     protected Screen getScoreScreen(GPTWTransition transition){
         return new ScoreScreen(this.game, transition);
