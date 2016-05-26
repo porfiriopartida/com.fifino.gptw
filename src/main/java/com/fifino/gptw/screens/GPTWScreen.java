@@ -56,6 +56,12 @@ public abstract class GPTWScreen extends Screen{
         this.difficulty = getGameDifficulty(level);
         menuItems = new MenuItemComposite(0, 0);
         //bgImage =  (AndroidImage)Assets.getImage(Assets.IMAGES_PATH + "/main/gray-bg.png");
+        input = (AndroidInput) game.getInput();
+        readyTime = getTimestamp();
+        postConstruct();
+        readyBg = Color.argb(255, 255, 255, 255);
+    }
+    public void initPaints(){
         paintB = getPaint();
         paintW = getPaint();
         paintBT = getPaint();
@@ -66,12 +72,7 @@ public abstract class GPTWScreen extends Screen{
         paintBG.setTextSize(100);
         paintBG.setTextAlign(Paint.Align.CENTER);
         paintW.setColor(Color.WHITE);
-        input = (AndroidInput) game.getInput();
-        readyTime = getTimestamp();
-        postConstruct();
-        readyBg = Color.argb(255, 255, 255, 255);
     }
-
     boolean debug = true;
     public int getGameDifficulty(int level){
         if(debug){
@@ -101,11 +102,18 @@ public abstract class GPTWScreen extends Screen{
         initializeAssets();
         setupEntities();
     }
-    protected void initializeAssets(HashMap<String, String> assets){
+    protected void initializeAssets(HashMap<String, String> assets) {
         Graphics g = getGraphics();
         Set<String> keys = assets.keySet();
+        if(g == null){
+            throw new RuntimeException("Graphics cannot be null");
+        }
+        if(assets == null){
+            throw new RuntimeException("Assets cannot be null");
+        }
         for(String key:keys){
             //if(Assets.getImage(key) == null){
+            System.out.println(assets == null);
                 Image bgImage =  g.newImage(assets.get(key), Graphics.ImageFormat.RGB565);
                 Assets.addImage(key, bgImage);
             //}

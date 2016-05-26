@@ -33,6 +33,7 @@ public class FindTheCar extends GPTWScreen implements TouchAction {
     public FindTheCar(Game game, Integer level) {
         super(game, level);
         this.state = GameState.Running;
+        throw new RuntimeException(game + " -- " + level);
 //        if(timer < 3){
 //            timer = 3;
 //        }

@@ -20,6 +20,8 @@ public class LoadingScreen extends GPTWScreen {
 	public LoadingScreen(Game game) {
         super(game);
         this.state = GameState.Running;
+
+        initPaints();
 	}
     Point last = null;
     @Override
