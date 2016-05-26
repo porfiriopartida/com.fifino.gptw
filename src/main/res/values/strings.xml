@@ -1,7 +1,7 @@
 <resources>
 
-    <string name="app_name">GPTW!</string>
+    <string name="app_name">Drama Friday</string>
     <string name="action_settings">Settings</string>
-    <string name="description">GPTW!!</string>
+    <string name="description">Drama Friday puzzles and more.</string>
 
 </resources>
