@@ -52,6 +52,9 @@ public abstract class GPTWScreen extends Screen{
     }
     public GPTWScreen(Game game, Integer level) {
         super(game);
+        if(level < 0){
+            throw new RuntimeException("Invalid level: " + level);
+        }
         this.level = level;
         this.difficulty = getGameDifficulty(level);
         menuItems = new MenuItemComposite(0, 0);
@@ -113,7 +116,6 @@ public abstract class GPTWScreen extends Screen{
         }
         for(String key:keys){
             //if(Assets.getImage(key) == null){
-            System.out.println(assets == null);
                 Image bgImage =  g.newImage(assets.get(key), Graphics.ImageFormat.RGB565);
                 Assets.addImage(key, bgImage);
             //}

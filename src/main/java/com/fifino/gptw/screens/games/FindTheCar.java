@@ -33,7 +33,6 @@ public class FindTheCar extends GPTWScreen implements TouchAction {
     public FindTheCar(Game game, Integer level) {
         super(game, level);
         this.state = GameState.Running;
-        throw new RuntimeException(game + " -- " + level);
 //        if(timer < 3){
 //            timer = 3;
 //        }
@@ -44,7 +43,7 @@ public class FindTheCar extends GPTWScreen implements TouchAction {
     @Override
     protected void initializeAssets() {
         assets = new HashMap<String, String>();
-        Graphics g = game.getGraphics();
+//        Graphics g = game.getGraphics();
         //BG
         assets.put(GPTWResources.FIND_THE_CAR_BG, GPTWResources.FIND_THE_CAR_IMG_BG);
         //Loading all totalCars and signs (may need to use spritesheet instead)
@@ -81,6 +80,7 @@ public class FindTheCar extends GPTWScreen implements TouchAction {
     }
     private void setupBackground(){
         this.bgImage = Assets.getAndroidImage(GPTWResources.FIND_THE_CAR_BG);
+        System.out.println(this.bgImage);
         MenuItem bgItem = new MenuItem(this.bgImage, 0, 0);
         bgItem.setCollidable(false);
         this.menuItems.add(bgItem); //bg should be first
