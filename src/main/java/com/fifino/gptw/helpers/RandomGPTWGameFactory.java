@@ -49,6 +49,7 @@ public class RandomGPTWGameFactory implements GPTWGameFactory{
     boolean useReflection = false;
     @Override
     public GPTWScreen getNextScreen() {
+        GPTWScreen screen;
         try {
             int nextGame = -1;
             int maxTries = 100, tries = 0;
@@ -59,10 +60,12 @@ public class RandomGPTWGameFactory implements GPTWGameFactory{
             }while(lastGame == nextGame && tries < maxTries);
             lastGame = nextGame;
             if(useReflection){
-                return getNextScreenReflection(nextGame);
+                screen = getNextScreenReflection(nextGame);
             } else {
-                return getNextScreenSwitch(nextGame);
+                screen = getNextScreenSwitch(nextGame);
             }
+            screen.initAndroidComponents();
+            return screen;
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(0);
@@ -70,7 +73,7 @@ public class RandomGPTWGameFactory implements GPTWGameFactory{
         return null;
     }
 
-    private GPTWScreen getNextScreenSwitch(int nextGame) {
+    public GPTWScreen getNextScreenSwitch(int nextGame) {
 //        TURN_OFF_AIRS = 0,
 //                TURN_OFF_ALARMS = 1,
 //                FIND_THE_CAR = 2,

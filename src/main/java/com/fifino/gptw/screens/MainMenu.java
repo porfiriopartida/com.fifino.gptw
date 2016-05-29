@@ -11,13 +11,14 @@ import com.fifino.framework.assets.Assets;
 import com.fifino.framework.entities.MenuItem;
 import com.fifino.framework.events.TouchAction;
 import com.fifino.gptw.GPTWGame;
+import com.fifino.gptw.flags.AutoRun;
 import com.fifino.gptw.helpers.GPTWResources;
 import com.kilobolt.framework.Game;
 import com.kilobolt.framework.Graphics;
 import com.kilobolt.framework.Input.TouchEvent;
 import com.kilobolt.framework.implementation.AndroidAudio;
 
-public class MainMenu extends GPTWScreen implements TouchAction {
+public class MainMenu extends GPTWScreen implements TouchAction, AutoRun {
 
 	public MainMenu(Game game) {
 		super(game);
@@ -141,9 +142,7 @@ public class MainMenu extends GPTWScreen implements TouchAction {
 			game.setScreen(getNextScreen());
 		} else if("records".equals(name)) {
             System.exit(0);
-            //game.reset();
             //TODO: switch to records screen.
-            //game.setScreen(getNextScreen());
         }
 	}
 }

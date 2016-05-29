@@ -41,7 +41,7 @@ public class GPTWGame extends AndroidGame {
 
     @Override
     public Screen getInitScreen() {
-    	return new LoadingScreen(this);
+        return new LoadingScreen(this);
     }
     public boolean getIsPortrait(){
         return this.isPortrait;
@@ -59,34 +59,6 @@ public class GPTWGame extends AndroidGame {
         resetFrameBuffer(isPortrait);
         System.out.println(isPortrait ? "PORTRAIT":"LANDSCAPE");
     }
-//    public Screen getNextScreen(){
-//        try {
-//            Class[] gamesPool = GPTWGamesPool.LIST;
-//            //Ensures not to get the same game again.
-//            int nextGame = -1;
-//            int maxTries = 100, tries = 0;
-//            do{
-//                nextGame = rnd.nextInt(gamesPool.length);
-//                tries++;
-//            }while(lastGame == nextGame && tries < maxTries);
-//            lastGame = nextGame;
-//
-//            //Creates a new instance of the game
-////            String className = gamesPool[nextGame];
-////                cl = Class.forName(className);
-//            Class cl = gamesPool[nextGame];
-////            System.out.println(cl.getName());
-////            System.out.println("nextGame: " + nextGame);
-//            Constructor con = cl.getConstructor(Game.class, Integer.class);
-//            Object xyz = con.newInstance(this, ++level);
-//            return (GPTWScreen) xyz;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            System.exit(0);
-//        }
-//        return null;
-//    }
-
     @Override
     public int getScore() {
         return score;

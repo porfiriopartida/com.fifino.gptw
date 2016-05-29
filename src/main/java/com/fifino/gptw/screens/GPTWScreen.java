@@ -11,6 +11,7 @@ import com.fifino.framework.assets.Assets;
 import com.fifino.framework.entities.MenuItemComposite;
 import com.fifino.framework.helpers.GameFactory;
 import com.fifino.gptw.GPTWGame;
+import com.fifino.gptw.flags.AutoRun;
 import com.fifino.gptw.helpers.GPTWHint;
 import com.fifino.gptw.helpers.GPTWTransition;
 import com.fifino.gptw.helpers.RandomGPTWGameFactory;
@@ -49,22 +50,31 @@ public abstract class GPTWScreen extends Screen{
 
     public GPTWScreen(Game game){
         this(game, -1);
+        if(this instanceof AutoRun){
+            initAndroidComponents();
+        }
     }
     public GPTWScreen(Game game, Integer level) {
         super(game);
-        if(level < 0){
-            throw new RuntimeException("Invalid level: " + level);
-        }
+//        if(level < 0){
+//            throw new RuntimeException("Invalid level: " + level);
+//        }
         this.level = level;
         this.difficulty = getGameDifficulty(level);
         menuItems = new MenuItemComposite(0, 0);
         //bgImage =  (AndroidImage)Assets.getImage(Assets.IMAGES_PATH + "/main/gray-bg.png");
         input = (AndroidInput) game.getInput();
         readyTime = getTimestamp();
-        postConstruct();
-        readyBg = Color.argb(255, 255, 255, 255);
     }
-    public void initPaints(){
+
+    /**
+     * ANything that uses this will require instrumenstation as it loads android components.
+     */
+    public void initAndroidComponents(){
+        postConstruct();
+
+        readyBg = Color.argb(255, 255, 255, 255);
+
         paintB = getPaint();
         paintW = getPaint();
         paintBT = getPaint();
@@ -246,9 +256,12 @@ public abstract class GPTWScreen extends Screen{
     protected void drawReady(){
         Graphics g = game.getGraphics();
         GPTWHint[] hints = getHints();
+        if(hints == null){
+            return;
+        }
         int hintHeight = 80;
         int hintMargin = 80;
-        int moved = hints.length % 2 == 0 ? hints.length/2:(hints.length+1)/2;
+        int moved = moved = hints.length % 2 == 0 ? hints.length/2:(hints.length+1)/2;
 
         int y = g.getHeight()/2 - hintHeight*moved - hintMargin*moved;
         Paint bgFont = getBackgroundFont();

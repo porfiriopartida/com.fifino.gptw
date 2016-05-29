@@ -4,6 +4,7 @@ import android.graphics.Point;
 
 import com.fifino.framework.assets.Assets;
 import com.fifino.framework.entities.MenuItem;
+import com.fifino.gptw.flags.AutoRun;
 import com.fifino.gptw.helpers.GPTWResources;
 import com.kilobolt.framework.Game;
 import com.kilobolt.framework.Graphics;
@@ -15,13 +16,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-public class LoadingScreen extends GPTWScreen {
+public class LoadingScreen extends GPTWScreen implements AutoRun {
     boolean doneLoading = false;
 	public LoadingScreen(Game game) {
         super(game);
         this.state = GameState.Running;
-
-        initPaints();
 	}
     Point last = null;
     @Override

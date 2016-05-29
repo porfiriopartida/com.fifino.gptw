@@ -1,6 +1,7 @@
 package com.fifino.gptw.helpers;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
 
 import com.fifino.gptw.GPTWGame;
 import com.fifino.gptw.screens.GPTWScreen;
@@ -15,12 +16,19 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+//import org.junit.runner.RunWith;
+//import org.robolectric.RuntimeEnvironment;
+//import org.robolectric.RobolectricTestRunner;
+//import org.robolectric.annotation.Implements;
+
 import static org.easymock.EasyMock.*;
 
 
 /**
  * Created by porfiriopartida on 5/25/2016.
  */
+//@RunWith(RobolectricTestRunner.class)
+//@Implements(Color.class)
 public class RandomGPTWGameFactoryTest extends TestCase {
 
     GPTWGame mockedGame;
@@ -56,41 +64,43 @@ public class RandomGPTWGameFactoryTest extends TestCase {
 
         //Mocks
         Graphics graphicsMock = createNiceMock(Graphics.class);
-        AndroidImage androidImageMock = createNiceMock(AndroidImage.class);
-        Bitmap bitmapMock = createNiceMock(Bitmap.class);
-
-        //expect from graphics
-        expect(graphicsMock.newImage(isA(String.class), isA(Graphics.ImageFormat.class))).andReturn(androidImageMock).anyTimes();
 
         //expected from game
-        expect(mockedGame.getLevel()).andReturn(1);
-        expect(mockedGame.getGraphics()).andReturn(graphicsMock).anyTimes();
-
-        //Expected from image
-        expect(androidImageMock.getWidth()).andReturn(200).anyTimes();
-        expect(androidImageMock.getHeight()).andReturn(200).anyTimes();
-        expect(androidImageMock.getBitmap()).andReturn(bitmapMock).anyTimes();
+        expect(mockedGame.getLevel()).andReturn(1).atLeastOnce();
 
         //prepare
         replay(mockedGame);
         replay(graphicsMock);
-        replay(androidImageMock);
-        replay(bitmapMock);
 
 //        String fileName, ImageFormat format
         GPTWScreen s = f.getNextScreenReflection( GPTWGamesPool.FIND_THE_CAR ) ;
-        System.out.println(s.getClass().toString());
+        assertEquals(s.getClass().toString(), FindTheCar.class.toString());
 
         //Check
         verify(mockedGame);
         verify(graphicsMock);
-        verify(androidImageMock);
-        verify(bitmapMock);
     }
 //
-//    @Test
-//    public void testGetNextScreen() throws Exception {
-//        RandomGPTWGameFactory f = RandomGPTWGameFactory.getInstance(mockedGame);
-//        f.getNextScreen() ;
-//    }
+    @Test
+    public void testGetNextScreenSwitch() throws Exception {
+        RandomGPTWGameFactory f = RandomGPTWGameFactory.getInstance(mockedGame);
+
+        //Mocks
+        Graphics graphicsMock = createNiceMock(Graphics.class);
+
+        //expected from game
+        expect(mockedGame.getLevel()).andReturn(1).atLeastOnce();
+
+        //prepare
+        replay(mockedGame);
+        replay(graphicsMock);
+
+//        String fileName, ImageFormat format
+        GPTWScreen s = f.getNextScreenSwitch( GPTWGamesPool.FIND_THE_CAR ) ;
+        assertEquals(s.getClass().toString(), FindTheCar.class.toString());
+
+        //Check
+        verify(mockedGame);
+        verify(graphicsMock);
+    }
 }
