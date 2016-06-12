@@ -20,13 +20,21 @@ public class GPTWGame extends AndroidGame {
     int level = 0;
     int score;
     int lives = 3;
+    private boolean isPortrait = true;
+    public static boolean TEST = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        //TODO: Restore from Bundle.
         super.onCreate(savedInstanceState);
 //        onCreateAndroidGame();
         AndroidEntity.MODE = AndroidEntity.Mode.PROD;
         // AndroidEntity.MODE = AndroidEntity.Mode.DEBUG;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -46,7 +54,6 @@ public class GPTWGame extends AndroidGame {
     public boolean getIsPortrait(){
         return this.isPortrait;
     }
-    boolean isPortrait = true;
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);

@@ -50,7 +50,7 @@ public abstract class GPTWScreen extends Screen{
 
     public GPTWScreen(Game game){
         this(game, -1);
-        if(this instanceof AutoRun){
+        if(this instanceof AutoRun && !GPTWGame.TEST){
             initAndroidComponents();
         }
     }
