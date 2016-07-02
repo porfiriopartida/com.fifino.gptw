@@ -46,11 +46,11 @@ public class DFContract {
 
 
         private static final String[] SQL_INSERT_SCREENS = new String[]{
-                INSERT_INTO + ScoresTable.TABLE_NAME + VALUES + "( 1, FindTheCar )",
-                INSERT_INTO + ScoresTable.TABLE_NAME + VALUES + "( 2, Spamranhas )",
-                INSERT_INTO + ScoresTable.TABLE_NAME + VALUES + "( 3, TurnOffAirs )",
-                INSERT_INTO + ScoresTable.TABLE_NAME + VALUES + "( 4, TurnOffAlarms )",
-                INSERT_INTO + ScoresTable.TABLE_NAME + VALUES + "( 5, WakeUp )",
+                INSERT_INTO + ScoresTable.TABLE_NAME + VALUES + "( 1, 'FindTheCar' )",
+                INSERT_INTO + ScoresTable.TABLE_NAME + VALUES + "( 2, 'Spamranhas')",
+                INSERT_INTO + ScoresTable.TABLE_NAME + VALUES + "( 3, 'TurnOffAirs' )",
+                INSERT_INTO + ScoresTable.TABLE_NAME + VALUES + "( 4, 'TurnOffAlarms' )",
+                INSERT_INTO + ScoresTable.TABLE_NAME + VALUES + "( 5, 'WakeUp' )",
         };
 
         public static String getCreateTable(){

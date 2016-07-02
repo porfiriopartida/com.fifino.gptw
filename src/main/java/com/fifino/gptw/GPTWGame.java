@@ -1,10 +1,12 @@
 package com.fifino.gptw;
 
 import android.content.res.Configuration;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import com.fifino.framework.implementation.AndroidEntity;
 import com.fifino.gptw.helpers.GPTWGamesPool;
+import com.fifino.gptw.helpers.db.DFDbHelper;
 import com.fifino.gptw.screens.GPTWScreen;
 import com.fifino.gptw.screens.LoadingScreen;
 import com.kilobolt.framework.Game;
@@ -22,6 +24,8 @@ public class GPTWGame extends AndroidGame {
     int lives = 3;
     private boolean isPortrait = true;
     public static boolean TEST = false;
+    private DFDbHelper dbHelper;
+    private SQLiteDatabase db;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -30,6 +34,8 @@ public class GPTWGame extends AndroidGame {
 //        onCreateAndroidGame();
         AndroidEntity.MODE = AndroidEntity.Mode.PROD;
         // AndroidEntity.MODE = AndroidEntity.Mode.DEBUG;
+        dbHelper = new DFDbHelper(this);
+        db = dbHelper.getWritableDatabase();
     }
 
     @Override
@@ -102,5 +108,9 @@ public class GPTWGame extends AndroidGame {
         setScore(0);
         setLives(3);
         setLevel(0);
+    }
+
+    public DFDbHelper getDbHelper() {
+        return dbHelper;
     }
 }
